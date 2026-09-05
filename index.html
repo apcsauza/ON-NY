@@ -1,0 +1,2667 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de ONs USD Ley NY — Carlos Sauza (Mat. 1823)</title>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --accent: #2b6cb0;
+            --bg: #f0f4f8;
+            --card-bg: #ffffff;
+            --border: #cbd5e1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            display: inline-block;
+            text-align: left;
+            width: auto;
+            min-width: min(1650px, 100%);
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .header {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+            color: var(--primary);
+            text-transform: uppercase;
+        }
+
+        .advisor-info {
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .input-group label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #475569;
+        }
+
+        .input-group input, .input-group select {
+            padding: 8px 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+            outline: none;
+            background-color: #fff;
+        }
+
+        .table-container {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 8px;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            text-align: center;
+        }
+
+        td {
+            padding: 8px 8px;
+            border-bottom: 1px solid #f1f5f9;
+            text-align: center;
+        }
+
+        td.ticker { font-weight: bold; color: var(--accent); }
+
+        .editable-input {
+            width: 95px;
+            text-align: right;
+            padding: 5px;
+            border: 1.5px solid var(--accent);
+            border-radius: 4px;
+            font-weight: bold;
+            color: var(--primary);
+            background-color: #fefce8;
+            outline: none;
+        }
+
+        .sub-val {
+            font-size: 10px;
+            color: #64748b;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .btn-detalle {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 11px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-detalle:hover {
+            background-color: #1d4ed8;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(3px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-card {
+            background: white;
+            width: 95%;
+            max-width: 1000px;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: var(--primary);
+        }
+
+        .modal-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f1f5f9;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .inputs-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .buttons-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-controls label {
+            font-size: 13px;
+            font-weight: bold;
+            color: #334155;
+        }
+
+        .modal-controls input {
+            width: 110px;
+            padding: 6px 10px;
+            border: 1.5px solid var(--accent);
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--primary);
+            text-align: right;
+            outline: none;
+            background-color: #ffffff;
+        }
+
+        .btn-action {
+            background-color: #0f172a;
+            color: white;
+            border: none;
+            padding: 7px 14px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-action:hover {
+            background-color: #1e293b;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        .tech-panel {
+            display: none;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            font-size: 12px;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .tech-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tech-item span.label {
+            font-weight: bold;
+            color: #64748b;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        .tech-item span.value {
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .sens-panel {
+            display: none;
+            margin-bottom: 15px;
+        }
+
+        .sens-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .sens-grid { grid-template-columns: 1fr; }
+        }
+
+        .sens-box {
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        .sens-header {
+            background-color: #0f4c81;
+            color: white;
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .sens-header input {
+            width: 50px;
+            text-align: center;
+            border-radius: 4px;
+            border: none;
+            padding: 2px 4px;
+            font-weight: bold;
+            background-color: #fefce8;
+            color: #0f172a;
+        }
+
+        .sens-title {
+            color: #0f4c81;
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .sens-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+
+        .sens-table th {
+            background-color: #f1f5f9;
+            color: #334155;
+            padding: 6px;
+            border-bottom: 1px solid #cbd5e1;
+            font-weight: bold;
+        }
+
+        .sens-table td {
+            padding: 5px;
+            border-bottom: 1px solid #f1f5f9;
+            text-align: center;
+        }
+
+        .sens-table tr.highlight {
+            background-color: #fefce8;
+            font-weight: bold;
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            font-weight: bold;
+            color: #64748b;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        tfoot tr {
+            background-color: #f8fafc;
+            font-weight: bold;
+            border-top: 2px solid #cbd5e1;
+        }
+
+        .cta-banner {
+            background-color: #0f172a;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+
+        .cta-banner a { color: #38bdf8; font-weight: bold; text-decoration: underline; }
+
+
+        .disclaimer {
+            margin-top: 15px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 12px;
+            font-size: 11px;
+            color: #64748b;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .disclaimer p { margin: 4px 0; }
+
+        .chk-pagos-realizados {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: #475569;
+            font-weight: 600;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+
+        .chk-pagos-realizados input[type="checkbox"] {
+            width: 15px;
+            height: 15px;
+            margin: 0;
+            padding: 0;
+            flex-shrink: 0;
+            accent-color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 8px; text-align: left; }
+
+            .container { padding: 12px; }
+
+            h1 { font-size: 18px; }
+
+            .btn-action { font-size: 12px; padding: 8px 10px; }
+
+            table { font-size: 11px; }
+
+            th, td { padding: 5px 6px; }
+
+            .modal-card { width: 96vw; padding: 12px; }
+
+            .modal-header h3 { font-size: 16px; }
+
+            .modal-controls { flex-direction: column; align-items: stretch; gap: 10px; }
+
+            .buttons-right { flex-wrap: wrap; gap: 8px; }
+
+            .inputs-left { flex-wrap: wrap; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Calculadora de ONs USD Ley NY</h1>
+        <div class="advisor-info">Asesor Financiero: Carlos Sauza — Mat. CNV N° 1823</div>
+    </div>
+
+    <div class="controls-grid">
+        <div class="input-group">
+            <label for="fechaLiquidacion">Fecha de Liquidación</label>
+            <input type="date" id="fechaLiquidacion">
+        </div>
+        <div class="input-group">
+            <label for="buscadorTicker">🔍 Buscador Rápido (Ticker o Emisor)</label>
+            <div style="display: flex; gap: 6px;">
+                <input type="text" id="buscadorTicker" list="listaTickers" placeholder="Ej: YCAMO o YPF" style="flex: 1;"
+                       onkeydown="if (event.key === 'Enter') { buscarYAbrirON(); }">
+                <button class="btn-action" style="padding: 8px 12px;" onclick="buscarYAbrirON()">Ir</button>
+            </div>
+            <datalist id="listaTickers"></datalist>
+        </div>
+        <div class="input-group">
+            <label for="monedaEntrada">Moneda de Entrada</label>
+            <select id="monedaEntrada" onchange="cambiarMonedaEntrada()">
+                <option value="USD">Dólares (USD)</option>
+                <option value="ARS">Pesos (ARS)</option>
+            </select>
+        </div>
+        <div class="input-group" id="groupTc" style="display: none;">
+            <label for="tipoCambio">Tipo de Cambio ($)</label>
+            <input type="number" id="tipoCambio" value="1500" step="1" oninput="actualizarPreciosPorTC()">
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Ticker</th>
+                    <th>Emisor</th>
+                    <th id="thVencimiento" onclick="ordenarPorVencimiento()" style="cursor: pointer; user-select: none;" title="Click para ordenar">Vencimiento <span id="flechaVenc">⇅</span></th>
+                    <th id="thPrecio">Precio Dirty (USD)</th>
+                    <th>Clean USD</th>
+                    <th>Val. Técnico</th>
+                    <th>Int. Corrido</th>
+                    <th>Paridad (%)</th>
+                    <th>Current Yield</th>
+                    <th>TIR Nominal (%)</th>
+                    <th>TIR Efectiva (%)</th>
+                    <th>Mod. Duration</th>
+                    <th>Próx. Cupón</th>
+                    <th>Lámina Min.</th>
+                    <th>Cash Flow</th>
+                </tr>
+            </thead>
+            <tbody id="tablaCuerpo"></tbody>
+        </table>
+    </div>
+
+    <div class="cta-banner">
+        🔒 Asesor: <strong>Carlos Sauza</strong> (Mat. CNV N° 1823) | 
+        <a href="https://www.balanz.com/abrir-cuenta-2.aspx?reference=carlos.sauza.asesor@gmail.com" target="_blank">Apretá aquí para abrir una cuenta en Balanz</a>
+    </div>
+
+    <div class="disclaimer">
+        <p>⚠️ <strong>Disclaimer:</strong> Este dashboard es exclusivamente para fines educativos e informativos. No constituye asesoramiento financiero ni recomendación de inversión.</p>
+        <p>🔒 Uso exclusivo para clientes del asesor Carlos Sauza (Mat. CNV N° 1823).</p>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modalCashflow">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3 id="modalTitulo">Simulador de Cash Flow</h3>
+            <button class="btn-close" onclick="cerrarModal()">&times;</button>
+        </div>
+
+        <div class="modal-controls">
+            <div class="inputs-left">
+                <label for="tenenciaInput">Nominales / Tenencia (VN):</label>
+                <input type="number" id="tenenciaInput" value="100" min="1" step="100" oninput="recalcularModal()">
+                <span style="font-size: 11px; color: #64748b;">(VN)</span>
+            </div>
+            <div class="buttons-right">
+                <label class="chk-pagos-realizados">
+                    <input type="checkbox" id="mostrarPagosRealizados" onchange="recalcularModal()">
+                    Mostrar pagos realizados
+                </label>
+                <button class="btn-action" onclick="toggleTechPanel()">📄 Descripción Técnica</button>
+                <button class="btn-action" onclick="toggleSensPanel()">📊 Tabla de Sensibilidad</button>
+            </div>
+        </div>
+
+        <div class="tech-panel" id="techPanel">
+            <div class="tech-grid" id="techGridBody"></div>
+        </div>
+
+        <div class="sens-panel" id="sensPanel">
+            <div class="sens-grid">
+                <div>
+                    <div class="sens-title">Sensibilidad de Precio</div>
+                    <div class="sens-box">
+                        <div class="sens-header">
+                            <span>Variación Precio:</span>
+                            <div><input type="number" id="varPrecioInput" value="1" step="0.5" oninput="generarSensibilidad()"> %</div>
+                        </div>
+                        <table class="sens-table">
+                            <thead>
+                                <tr>
+                                    <th>Precio (USD)</th>
+                                    <th>TIR Efectiva</th>
+                                    <th>Modify Duration</th>
+                                    <th>Paridad</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bodySensPrecio"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="sens-title">Sensibilidad de TIR</div>
+                    <div class="sens-box">
+                        <div class="sens-header">
+                            <span>Variación TIR:</span>
+                            <div><input type="number" id="varTirInput" value="1" step="0.5" oninput="generarSensibilidad()"> %</div>
+                        </div>
+                        <table class="sens-table">
+                            <thead>
+                                <tr>
+                                    <th>TIR S/Tasa Ref</th>
+                                    <th>Precio (USD)</th>
+                                    <th>Variación % en Precio</th>
+                                    <th>Variación absoluta en Precio</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bodySensTir"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-body">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha de Pago</th>
+                        <th>Días (30/360)</th>
+                        <th>Interés (USD)</th>
+                        <th>Amortización (USD)</th>
+                        <th>Flujo Total (USD)</th>
+                    </tr>
+                </thead>
+                <tbody id="modalTablaCuerpo"></tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2" style="text-align: right;">Total a Cobrar:</td>
+                        <td id="totalInteres" style="color: #0369a1;">USD 0.00</td>
+                        <td id="totalAmort" style="color: #0369a1;">USD 0.00</td>
+                        <td id="totalFlujo" style="color: #15803d; font-size: 13px;">USD 0.00</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function obtenerSiguienteDiaHabil() {
+        let fecha = new Date();
+        fecha.setDate(fecha.getDate() + 1);
+        while (fecha.getDay() === 0 || fecha.getDay() === 6) {
+            fecha.setDate(fecha.getDate() + 1);
+        }
+        return fecha.toISOString().split('T')[0];
+    }
+
+    const hoyInput = document.getElementById('fechaLiquidacion');
+    hoyInput.value = obtenerSiguienteDiaHabil();
+
+    const ONS_BASE = [
+        {
+            ticker: "BACHO",
+            emisor: "Banco Macro Cl. H",
+            vencimiento: "2031-01-28",
+            ultCupon: "2026-07-28",
+            cuponAnual: 8.0,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "28/01/2026",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Enero / Julio)",
+                amortizacion: "100% al vencimiento (Bullet)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2027-01-28", renta: 4.0, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-07-28", renta: 4.0, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-01-28", renta: 4.0, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-07-28", renta: 4.0, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-01-28", renta: 4.0, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-07-28", renta: 4.0, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-01-28", renta: 4.0, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-07-28", renta: 4.0, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-01-28", renta: 4.0, amort: 100.0, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "DNC7O",
+            emisor: "Edenor Cl. 7",
+            vencimiento: "2030-10-24",
+            ultCupon: "2026-04-24",
+            cuponAnual: 9.75,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "24/10/2024",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Abril / Octubre)",
+                amortizacion: "3 cuotas: 33.33% (Oct-28), 33.33% (Oct-29) y 33.34% (Oct-30)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-10-24", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-04-24", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-10-24", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-04-24", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-10-24", renta: 4.875, amort: 33.33, vr: 66.67 },
+                { fecha: "2029-04-24", renta: 3.2501625, amort: 0.0, vr: 66.67 },
+                { fecha: "2029-10-24", renta: 3.2501625, amort: 33.33, vr: 33.34 },
+                { fecha: "2030-04-24", renta: 1.625325, amort: 0.0, vr: 33.34 },
+                { fecha: "2030-10-24", renta: 1.625325, amort: 33.34, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "PLC5O",
+            emisor: "Pluspetrol Cl. 5",
+            vencimiento: "2031-05-18",
+            ultCupon: "2026-05-18",
+            cuponAnual: 8.125,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "18/11/2025",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Mayo / Noviembre)",
+                amortizacion: "100% al vencimiento (Bullet)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-11-18", renta: 4.0625, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-05-18", renta: 4.0625, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-11-18", renta: 4.0625, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-05-18", renta: 4.0625, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-11-18", renta: 4.0625, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-05-18", renta: 4.0625, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-11-18", renta: 4.0625, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-05-18", renta: 4.0625, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-11-18", renta: 4.0625, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-05-18", renta: 4.0625, amort: 100.0, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "PNXCO",
+            emisor: "PAE Cl. 31",
+            vencimiento: "2032-04-30",
+            ultCupon: "2026-04-30",
+            cuponAnual: 8.50,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 151242.65,
+            laminaMinima: 1000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "30/04/2024",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Abril / Octubre)",
+                amortizacion: "3 cuotas: 33.33% (Abr-30), 33.33% (Abr-31) y 33.34% (Abr-32)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-10-30", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-04-30", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-10-30", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-04-30", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-10-30", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-04-30", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-10-30", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-04-30", renta: 4.25, amort: 33.33325, vr: 66.66675 },
+                { fecha: "2030-10-30", renta: 2.833337, amort: 0.0, vr: 66.66675 },
+                { fecha: "2031-04-30", renta: 2.833337, amort: 33.33325, vr: 33.3335 },
+                { fecha: "2031-10-30", renta: 1.416674, amort: 0.0, vr: 33.3335 },
+                { fecha: "2032-04-30", renta: 1.416674, amort: 33.3335, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "RUCDO",
+            emisor: "MSU Energy Cl. XII",
+            vencimiento: "2030-12-05",
+            ultCupon: "2026-06-05",
+            cuponAnual: 9.75,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "05/12/2024",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Junio / Diciembre)",
+                amortizacion: "17.50% (Dic-28), 17.50% (Dic-29) y 65.00% (Dic-30)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-12-05", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-06-05", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-12-05", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-06-05", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-12-05", renta: 4.875, amort: 17.50, vr: 82.50 },
+                { fecha: "2029-06-05", renta: 4.021875, amort: 0.0, vr: 82.50 },
+                { fecha: "2029-12-05", renta: 4.021875, amort: 17.50, vr: 65.00 },
+                { fecha: "2030-06-05", renta: 3.16875, amort: 0.0, vr: 65.00 },
+                { fecha: "2030-12-05", renta: 3.16875, amort: 65.00, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "LQC1O",
+            emisor: "PCR / Luz de Tres Picos",
+            vencimiento: "2034-07-28",
+            ultCupon: "2026-07-28",
+            cuponAnual: 8.50,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 151242.65,
+            laminaMinima: 1000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "28/07/2026",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Enero / Julio)",
+                amortizacion: "3 cuotas: 33% (Jul-32), 33% (Jul-33) y 34% (Jul-34)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2027-01-28", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-07-28", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-01-28", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-07-28", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-01-28", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-07-28", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-01-28", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-07-28", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-01-28", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-07-28", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-01-28", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-07-28", renta: 4.25, amort: 33.0, vr: 67.0 },
+                { fecha: "2033-01-28", renta: 2.8475, amort: 0.0, vr: 67.0 },
+                { fecha: "2033-07-28", renta: 2.8475, amort: 33.0, vr: 34.0 },
+                { fecha: "2034-01-28", renta: 1.445, amort: 0.0, vr: 34.0 },
+                { fecha: "2034-07-28", renta: 1.445, amort: 34.0, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "MGCMO",
+            emisor: "Pampa Energía Cl. 21",
+            vencimiento: "2031-09-10",
+            ultCupon: "2026-03-10",
+            cuponAnual: 7.95,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 151242.65,
+            laminaMinima: 10000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "10/09/2024",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Marzo / Septiembre)",
+                amortizacion: "100% al vencimiento (Bullet)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-09-10", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-03-10", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-09-10", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-03-10", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-09-10", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-03-10", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-09-10", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-03-10", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-09-10", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-03-10", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-09-10", renta: 3.975, amort: 100.0, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "TSC3O",
+            emisor: "TGS Cl. 3",
+            vencimiento: "2031-07-24",
+            ultCupon: "2026-07-24",
+            cuponAnual: 8.50,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 10000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "24/07/2024",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Enero / Julio)",
+                amortizacion: "100% al vencimiento (Bullet)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2027-01-24", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-07-24", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-01-24", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-07-24", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-01-24", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-07-24", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-01-24", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-07-24", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-01-24", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-07-24", renta: 4.25, amort: 100.0, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "BACGO",
+            emisor: "Banco Macro Cl. G",
+            vencimiento: "2029-06-23",
+            ultCupon: "2026-06-23",
+            cuponAnual: 8.00,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "23/06/2025",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Junio / Diciembre)",
+                amortizacion: "100% al vencimiento (Bullet)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-12-23", renta: 4.00, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-06-23", renta: 4.00, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-12-23", renta: 4.00, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-06-23", renta: 4.00, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-12-23", renta: 4.00, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-06-23", renta: 4.00, amort: 100.0, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "YFCJO",
+            emisor: "YPF Energía Eléctrica Cl. XVIII",
+            vencimiento: "2032-10-16",
+            ultCupon: "2026-04-16",
+            cuponAnual: 7.875,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "16/10/2024",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Abril / Octubre)",
+                amortizacion: "3 cuotas: 33% (Oct-30), 33% (Oct-31) y 34% (Oct-32)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-10-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-04-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-10-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-04-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-10-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-04-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-10-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-04-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-10-16", renta: 3.9375, amort: 33.0, vr: 67.0 },
+                { fecha: "2031-04-16", renta: 2.638125, amort: 0.0, vr: 67.0 },
+                { fecha: "2031-10-16", renta: 2.638125, amort: 33.0, vr: 34.0 },
+                { fecha: "2032-04-16", renta: 1.33875, amort: 0.0, vr: 34.0 },
+                { fecha: "2032-10-16", renta: 1.33875, amort: 34.0, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "ARC1O",
+            emisor: "Aeropuertos Argentina 2000 Cl. 1",
+            vencimiento: "2031-08-01",
+            ultCupon: "2026-08-03",
+            cuponAnual: 8.50,
+            frecuencia: 4,
+            valorResidual: 97.58,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "28/10/2021",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Trimestral (Feb / May / Ago / Nov)",
+                amortizacion: "Amortización trimestral escalonada e irregular hasta ago-2031",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-11-02", renta: 2.07350275, amort: 0.0, vr: 97.58 },
+                { fecha: "2027-02-01", renta: 2.07350275, amort: 4.7823, vr: 92.79 },
+                { fecha: "2027-05-03", renta: 1.97187888, amort: 2.7319, vr: 90.06 },
+                { fecha: "2027-08-02", renta: 1.913826, amort: 4.2299, vr: 85.83 },
+                { fecha: "2027-11-01", renta: 1.82394063, amort: 3.288, vr: 82.54 },
+                { fecha: "2028-02-01", renta: 1.75407063, amort: 5.6388, vr: 76.91 },
+                { fecha: "2028-05-02", renta: 1.63424613, amort: 3.4927, vr: 73.41 },
+                { fecha: "2028-08-01", renta: 1.56002625, amort: 0.0, vr: 73.41 },
+                { fecha: "2028-11-01", renta: 1.56002625, amort: 5.0618, vr: 68.35 },
+                { fecha: "2029-02-01", renta: 1.452463, amort: 7.1115, vr: 61.24 },
+                { fecha: "2029-05-02", renta: 1.30134363, amort: 4.9583, vr: 56.28 },
+                { fecha: "2029-08-01", renta: 1.19597975, amort: 6.5846, vr: 49.70 },
+                { fecha: "2029-11-01", renta: 1.056057, amort: 5.5925, vr: 44.10 },
+                { fecha: "2030-02-01", renta: 0.93721638, amort: 7.3796, vr: 36.72 },
+                { fecha: "2030-05-02", renta: 0.78039988, amort: 5.2657, vr: 31.46 },
+                { fecha: "2030-08-01", renta: 0.66850375, amort: 6.8845, vr: 24.57 },
+                { fecha: "2030-11-01", renta: 0.52220813, amort: 5.9087, vr: 18.67 },
+                { fecha: "2031-02-03", renta: 0.39664825, amort: 8.1084, vr: 10.56 },
+                { fecha: "2031-05-02", renta: 0.22434475, amort: 5.9938, vr: 4.56 },
+                { fecha: "2031-08-01", renta: 0.0969765, amort: 4.5638, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "GN49O",
+            emisor: "Genneia Cl. XLIX",
+            vencimiento: "2033-12-02",
+            ultCupon: "2026-06-02",
+            cuponAnual: 7.75,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "02/12/2025",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Junio / Diciembre)",
+                amortizacion: "3 cuotas: 33% (Dic-31), 33% (Dic-32) y 34% (Dic-33)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-12-02", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-06-02", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-12-02", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-06-02", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-12-02", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-06-02", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-12-02", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-06-02", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-12-02", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-06-02", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-12-02", renta: 3.875, amort: 33.0, vr: 67.0 },
+                { fecha: "2032-06-02", renta: 2.59625, amort: 0.0, vr: 67.0 },
+                { fecha: "2032-12-02", renta: 2.59625, amort: 33.0, vr: 34.0 },
+                { fecha: "2033-06-02", renta: 1.3175, amort: 0.0, vr: 34.0 },
+                { fecha: "2033-12-02", renta: 1.3175, amort: 34.0, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "TTCAO",
+            emisor: "Tecpetrol Cl. 10",
+            vencimiento: "2033-01-22",
+            ultCupon: "2026-07-22",
+            cuponAnual: 7.625,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 10000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "22/01/2025",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Enero / Julio)",
+                amortizacion: "3 cuotas: 33% (Ene-31), 33% (Ene-32) y 34% (Ene-33)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2027-01-22", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-07-22", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-01-22", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-07-22", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-01-22", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-07-22", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-01-22", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-07-22", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-01-22", renta: 3.8125, amort: 33.0, vr: 67.0 },
+                { fecha: "2031-07-22", renta: 2.554375, amort: 0.0, vr: 67.0 },
+                { fecha: "2032-01-22", renta: 2.554375, amort: 33.0, vr: 34.0 },
+                { fecha: "2032-07-22", renta: 1.29625, amort: 0.0, vr: 34.0 },
+                { fecha: "2033-01-22", renta: 1.29625, amort: 34.0, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "IRCFO",
+            emisor: "IRSA Cl. XIV",
+            vencimiento: "2028-06-22",
+            ultCupon: "2026-06-22",
+            cuponAnual: 8.75,
+            frecuencia: 2,
+            valorResidual: 47.50,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "08/07/2022",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Junio / Diciembre)",
+                amortizacion: "Amortización semestral de 17.5 p.p. desde jun-2024",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-12-22", renta: 2.078125, amort: 0.0, vr: 47.50 },
+                { fecha: "2027-06-22", renta: 2.078125, amort: 17.50, vr: 30.00 },
+                { fecha: "2027-12-22", renta: 1.3125, amort: 0.0, vr: 30.00 },
+                { fecha: "2028-06-22", renta: 1.3125, amort: 30.00, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "BYCHO",
+            emisor: "Galicia Cl. XVI",
+            vencimiento: "2028-10-10",
+            ultCupon: "2026-04-10",
+            cuponAnual: 7.75,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 151099.60,
+            laminaMinima: 2000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "10/10/2024",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Abril / Octubre)",
+                amortizacion: "100% al vencimiento (Bullet)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-10-10", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-04-10", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-10-10", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-04-10", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-10-10", renta: 3.875, amort: 100.0, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "OZC8O",
+            emisor: "EDEMSA Cl. 8",
+            vencimiento: "2033-06-11",
+            ultCupon: "2026-06-11",
+            cuponAnual: 9.75,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 10000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "11/06/2026",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Junio / Diciembre)",
+                amortizacion: "3 cuotas: 33% (Jun-31), 33% (Jun-32) y 34% (Jun-33)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-12-11", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-06-11", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-12-11", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-06-11", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-12-11", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-06-11", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-12-11", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-06-11", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-12-11", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-06-11", renta: 4.875, amort: 33.33, vr: 66.67 },
+                { fecha: "2031-12-11", renta: 3.2501625, amort: 0.0, vr: 66.67 },
+                { fecha: "2032-06-11", renta: 3.2501625, amort: 33.33, vr: 33.34 },
+                { fecha: "2032-12-11", renta: 1.625325, amort: 0.0, vr: 33.34 },
+                { fecha: "2033-06-11", renta: 1.625325, amort: 33.34, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "CAC5O",
+            emisor: "Capex Cl. V",
+            vencimiento: "2028-08-25",
+            ultCupon: "2026-08-25",
+            cuponAnual: 9.25,
+            frecuencia: 2,
+            valorResidual: 50.00,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "25/08/2023",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Febrero / Agosto)",
+                amortizacion: "Amortización semestral de 12.5 p.p. desde feb-2025",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2027-02-25", renta: 2.3125, amort: 12.50, vr: 37.50 },
+                { fecha: "2027-08-25", renta: 1.734375, amort: 12.50, vr: 25.00 },
+                { fecha: "2028-02-25", renta: 1.15625, amort: 12.50, vr: 12.50 },
+                { fecha: "2028-08-25", renta: 0.578125, amort: 12.50, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "YCAMO",
+            emisor: "YPF Cl. LIII",
+            vencimiento: "2027-07-21",
+            ultCupon: "2026-07-21",
+            cuponAnual: 6.95,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 10000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "21/07/2017",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Enero / Julio)",
+                amortizacion: "100% al vencimiento (Bullet)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2027-01-21", renta: 3.475, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-07-21", renta: 3.475, amort: 100.0, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "RAC8O",
+            emisor: "Raghsa Cl. VIII",
+            vencimiento: "2036-08-04",
+            ultCupon: "2026-08-04",
+            cuponAnual: 7.95,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "04/08/2026",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Febrero / Agosto)",
+                amortizacion: "100% al vencimiento (Bullet)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2027-02-04", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-08-04", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-02-04", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-08-04", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-02-04", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-08-04", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-02-04", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-08-04", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-02-04", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-08-04", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-02-04", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-08-04", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-02-04", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-08-04", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2034-02-04", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2034-08-04", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2035-02-04", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2035-08-04", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2036-02-04", renta: 3.975, amort: 0.0, vr: 100.0 },
+                { fecha: "2036-08-04", renta: 3.975, amort: 100.0, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "RAC7O",
+            emisor: "Raghsa Cl. VII",
+            vencimiento: "2032-12-11",
+            ultCupon: "2026-06-11",
+            cuponAnual: 8.50,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "11/12/2024",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Junio / Diciembre)",
+                amortizacion: "100% al vencimiento (Bullet)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-12-11", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-06-11", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-12-11", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-06-11", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-12-11", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-06-11", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-12-11", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-06-11", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-12-11", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-06-11", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-12-11", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-06-11", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-12-11", renta: 4.25, amort: 100.0, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "RAC5O",
+            emisor: "Raghsa Cl. V",
+            vencimiento: "2030-04-24",
+            ultCupon: "2026-04-24",
+            cuponAnual: 8.25,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "24/04/2023",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Abril / Octubre)",
+                amortizacion: "100% al vencimiento (Bullet)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-10-24", renta: 4.125, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-04-24", renta: 4.125, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-10-24", renta: 4.125, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-04-24", renta: 4.125, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-10-24", renta: 4.125, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-04-24", renta: 4.125, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-10-24", renta: 4.125, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-04-24", renta: 4.125, amort: 100.0, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "OZC6O",
+            emisor: "EDEMSA Cl. 6",
+            vencimiento: "2031-07-28",
+            ultCupon: "2026-07-28",
+            cuponAnual: 9.75,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 10000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "28/07/2025",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Enero / Julio)",
+                amortizacion: "3 cuotas: 33% (Jul-29), 33% (Jul-30) y 34% (Jul-31)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2027-01-28", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-07-28", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-01-28", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-07-28", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-01-28", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-07-28", renta: 4.875, amort: 33.33, vr: 66.67 },
+                { fecha: "2030-01-28", renta: 3.5835125, amort: 0.0, vr: 66.67 },
+                { fecha: "2030-07-28", renta: 3.5835125, amort: 33.33, vr: 33.34 },
+                { fecha: "2031-01-28", renta: 1.958725, amort: 0.0, vr: 33.34 },
+                { fecha: "2031-07-28", renta: 1.958725, amort: 33.34, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "PNDCO",
+            emisor: "PAE Cl. 12",
+            vencimiento: "2027-04-30",
+            ultCupon: "2026-04-30",
+            cuponAnual: 9.125,
+            frecuencia: 2,
+            valorResidual: 40.00,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "30/04/2021",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Abril / Octubre)",
+                amortizacion: "Amortización semestral de 20 p.p. desde abr-2025",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-10-30", renta: 1.825, amort: 20.00, vr: 20.00 },
+                { fecha: "2027-04-30", renta: 0.9125, amort: 20.00, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "MGCRO",
+            emisor: "Pampa Energía S.A. Cl. 26",
+            vencimiento: "2037-11-14",
+            ultCupon: "2026-05-14",
+            cuponAnual: 7.75,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 10000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "14/11/2025",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Mayo / Noviembre)",
+                amortizacion: "Íntegra al vencimiento (bullet)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-11-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-05-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-11-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-05-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-11-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-05-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-11-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-05-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-11-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-05-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-11-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-05-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-11-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-05-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-11-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2034-05-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2034-11-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2035-05-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2035-11-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2036-05-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2036-11-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2037-05-14", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2037-11-14", renta: 3.875, amort: 100.0, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "PLC7O",
+            emisor: "Pluspetrol S.A. Cl. 7",
+            vencimiento: "2037-09-30",
+            ultCupon: "2026-06-30",
+            cuponAnual: 7.55,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "30/06/2026",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Marzo / Septiembre)",
+                amortizacion: "3 cuotas: 33% (Sep-35), 33% (Sep-36) y 34% (Sep-37)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2027-03-30", renta: 5.6625, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-09-30", renta: 3.775, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-03-30", renta: 3.775, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-09-30", renta: 3.775, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-03-30", renta: 3.775, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-09-30", renta: 3.775, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-03-30", renta: 3.775, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-09-30", renta: 3.775, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-03-30", renta: 3.775, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-09-30", renta: 3.775, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-03-30", renta: 3.775, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-09-30", renta: 3.775, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-03-30", renta: 3.775, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-09-30", renta: 3.775, amort: 0.0, vr: 100.0 },
+                { fecha: "2034-03-30", renta: 3.775, amort: 0.0, vr: 100.0 },
+                { fecha: "2034-09-30", renta: 3.775, amort: 0.0, vr: 100.0 },
+                { fecha: "2035-03-30", renta: 3.775, amort: 0.0, vr: 100.0 },
+                { fecha: "2035-09-30", renta: 3.775, amort: 33.00, vr: 67.00 },
+                { fecha: "2036-03-30", renta: 2.52925, amort: 0.0, vr: 67.00 },
+                { fecha: "2036-09-30", renta: 2.52925, amort: 33.00, vr: 34.00 },
+                { fecha: "2037-03-30", renta: 1.2835, amort: 0.0, vr: 34.00 },
+                { fecha: "2037-09-30", renta: 1.2835, amort: 34.00, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "VSCXO",
+            emisor: "Vista Energy Argentina S.A.U. Cl. XXXI",
+            vencimiento: "2038-04-08",
+            ultCupon: "2026-04-08",
+            cuponAnual: 7.875,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "08/04/2026",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Abril / Octubre)",
+                amortizacion: "3 cuotas: 33% (Abr-36), 33% (Abr-37) y 34% (Abr-38)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-10-08", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-04-08", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-10-08", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-04-08", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-10-08", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-04-08", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-10-08", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-04-08", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-10-08", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-04-08", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-10-08", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-04-08", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-10-08", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-04-08", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-10-08", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2034-04-08", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2034-10-08", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2035-04-08", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2035-10-08", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2036-04-08", renta: 3.9375, amort: 33.00, vr: 67.00 },
+                { fecha: "2036-10-08", renta: 2.638125, amort: 0.0, vr: 67.00 },
+                { fecha: "2037-04-08", renta: 2.638125, amort: 33.00, vr: 34.00 },
+                { fecha: "2037-10-08", renta: 1.33875, amort: 0.0, vr: 34.00 },
+                { fecha: "2038-04-08", renta: 1.33875, amort: 34.00, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "YM34O",
+            emisor: "YPF S.A. Cl. XXXIV",
+            vencimiento: "2034-01-17",
+            ultCupon: "2026-07-17",
+            cuponAnual: 8.25,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "17/01/2025",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Enero / Julio)",
+                amortizacion: "3 cuotas: 30% (Ene-32), 30% (Ene-33) y 40% (Ene-34)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2027-01-17", renta: 4.125, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-07-17", renta: 4.125, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-01-17", renta: 4.125, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-07-17", renta: 4.125, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-01-17", renta: 4.125, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-07-17", renta: 4.125, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-01-17", renta: 4.125, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-07-17", renta: 4.125, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-01-17", renta: 4.125, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-07-17", renta: 4.125, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-01-17", renta: 4.125, amort: 30.00, vr: 70.00 },
+                { fecha: "2032-07-17", renta: 2.8875, amort: 0.0, vr: 70.00 },
+                { fecha: "2033-01-17", renta: 2.8875, amort: 30.00, vr: 40.00 },
+                { fecha: "2033-07-17", renta: 1.65, amort: 0.0, vr: 40.00 },
+                { fecha: "2034-01-17", renta: 1.65, amort: 40.00, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "YMCXO",
+            emisor: "YPF S.A. Cl. XXXI",
+            vencimiento: "2031-09-11",
+            ultCupon: "2026-03-11",
+            cuponAnual: 8.75,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "11/09/2024",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Marzo / Septiembre)",
+                amortizacion: "3 cuotas: 20% (Sep-29), 20% (Sep-30) y 60% (Sep-31)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-09-11", renta: 4.375, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-03-11", renta: 4.375, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-09-11", renta: 4.375, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-03-11", renta: 4.375, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-09-11", renta: 4.375, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-03-11", renta: 4.375, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-09-11", renta: 4.375, amort: 20.00, vr: 80.00 },
+                { fecha: "2030-03-11", renta: 3.5, amort: 0.0, vr: 80.00 },
+                { fecha: "2030-09-11", renta: 3.5, amort: 20.00, vr: 60.00 },
+                { fecha: "2031-03-11", renta: 2.625, amort: 0.0, vr: 60.00 },
+                { fecha: "2031-09-11", renta: 2.625, amort: 60.00, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "IRCPO",
+            emisor: "IRSA Inversiones y Representaciones S.A. Cl. XXIV",
+            vencimiento: "2035-03-31",
+            ultCupon: "2026-03-31",
+            cuponAnual: 8.0,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "31/03/2025",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Marzo / Septiembre)",
+                amortizacion: "3 cuotas: 33% (Mar-33), 33% (Mar-34) y 34% (Mar-35)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-09-30", renta: 4.00, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-03-31", renta: 4.00, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-09-30", renta: 4.00, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-03-31", renta: 4.00, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-09-30", renta: 4.00, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-03-31", renta: 4.00, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-09-30", renta: 4.00, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-03-31", renta: 4.00, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-09-30", renta: 4.00, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-03-31", renta: 4.00, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-09-30", renta: 4.00, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-03-31", renta: 4.00, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-09-30", renta: 4.00, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-03-31", renta: 4.00, amort: 33.00, vr: 67.00 },
+                { fecha: "2033-09-30", renta: 2.68, amort: 0.0, vr: 67.00 },
+                { fecha: "2034-03-31", renta: 2.68, amort: 33.00, vr: 34.00 },
+                { fecha: "2034-09-30", renta: 1.36, amort: 0.0, vr: 34.00 },
+                { fecha: "2035-03-31", renta: 1.36, amort: 34.00, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "VSCVO",
+            emisor: "Vista Energy Argentina S.A.U. Cl. XXIX",
+            vencimiento: "2033-06-10",
+            ultCupon: "2026-06-10",
+            cuponAnual: 8.5,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "10/06/2025",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Junio / Diciembre)",
+                amortizacion: "3 cuotas: 33% (Jun-31), 33% (Jun-32) y 34% (Jun-33)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-12-10", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-06-10", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-12-10", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-06-10", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-12-10", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-06-10", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-12-10", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-06-10", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-12-10", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-06-10", renta: 4.25, amort: 33.00, vr: 67.00 },
+                { fecha: "2031-12-10", renta: 2.8475, amort: 0.0, vr: 67.00 },
+                { fecha: "2032-06-10", renta: 2.8475, amort: 33.00, vr: 34.00 },
+                { fecha: "2032-12-10", renta: 1.445, amort: 0.0, vr: 34.00 },
+                { fecha: "2033-06-10", renta: 1.445, amort: 34.00, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "TLCPO",
+            emisor: "Telecom Argentina S.A. Cl. 24",
+            vencimiento: "2033-05-28",
+            ultCupon: "2026-05-28",
+            cuponAnual: 9.25,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 100,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "28/05/2025",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Mayo / Noviembre)",
+                amortizacion: "2 cuotas: 50% (May-32) y 50% (May-33)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-11-28", renta: 4.625, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-05-28", renta: 4.625, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-11-28", renta: 4.625, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-05-28", renta: 4.625, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-11-28", renta: 4.625, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-05-28", renta: 4.625, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-11-28", renta: 4.625, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-05-28", renta: 4.625, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-11-28", renta: 4.625, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-05-28", renta: 4.625, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-11-28", renta: 4.625, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-05-28", renta: 4.625, amort: 50.00, vr: 50.00 },
+                { fecha: "2032-11-28", renta: 2.3125, amort: 0.0, vr: 50.00 },
+                { fecha: "2033-05-28", renta: 2.3125, amort: 50.00, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "TLCTO",
+            emisor: "Telecom Argentina S.A. Cl. 27",
+            vencimiento: "2036-01-20",
+            ultCupon: "2026-07-20",
+            cuponAnual: 8.5,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 100,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "20/01/2026",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Enero / Julio)",
+                amortizacion: "2 cuotas: 50% (Ene-35) y 50% (Ene-36)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2027-01-20", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-07-20", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-01-20", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-07-20", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-01-20", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-07-20", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-01-20", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-07-20", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-01-20", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-07-20", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-01-20", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-07-20", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-01-20", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-07-20", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2034-01-20", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2034-07-20", renta: 4.25, amort: 0.0, vr: 100.0 },
+                { fecha: "2035-01-20", renta: 4.25, amort: 50.00, vr: 50.00 },
+                { fecha: "2035-07-20", renta: 2.125, amort: 0.0, vr: 50.00 },
+                { fecha: "2036-01-20", renta: 2.125, amort: 50.00, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "DN1AO",
+            emisor: "Edenor S.A. Cl. 10 Serie II Adicionales",
+            vencimiento: "2033-04-28",
+            ultCupon: "2026-04-28",
+            cuponAnual: 9.5,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 100,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "05/08/2026",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Abril / Octubre)",
+                amortizacion: "3 cuotas: 33.33% (Abr-31), 33.33% (Abr-32) y 33.34% (Abr-33)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-10-28", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-04-28", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-10-28", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-04-28", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-10-28", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-04-28", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-10-28", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-04-28", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-10-28", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-04-28", renta: 4.75, amort: 33.33, vr: 66.67 },
+                { fecha: "2031-10-28", renta: 3.166825, amort: 0.0, vr: 66.67 },
+                { fecha: "2032-04-28", renta: 3.166825, amort: 33.33, vr: 33.34 },
+                { fecha: "2032-10-28", renta: 1.58365, amort: 0.0, vr: 33.34 },
+                { fecha: "2033-04-28", renta: 1.58365, amort: 33.34, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "DNCAO",
+            emisor: "Edenor S.A. Cl. 10 Serie II",
+            vencimiento: "2033-04-28",
+            ultCupon: "2026-04-28",
+            cuponAnual: 9.5,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 100,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "28/04/2026",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Abril / Octubre)",
+                amortizacion: "3 cuotas: 33.33% (Abr-31), 33.33% (Abr-32) y 33.34% (Abr-33)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-10-28", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-04-28", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-10-28", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-04-28", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-10-28", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-04-28", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-10-28", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-04-28", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-10-28", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-04-28", renta: 4.75, amort: 33.33, vr: 66.67 },
+                { fecha: "2031-10-28", renta: 3.166825, amort: 0.0, vr: 66.67 },
+                { fecha: "2032-04-28", renta: 3.166825, amort: 33.33, vr: 33.34 },
+                { fecha: "2032-10-28", renta: 1.58365, amort: 0.0, vr: 33.34 },
+                { fecha: "2033-04-28", renta: 1.58365, amort: 33.34, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "PN43O",
+            emisor: "Pan American Energy S.L. Cl. 43",
+            vencimiento: "2037-01-15",
+            ultCupon: "2026-07-15",
+            cuponAnual: 7.75,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "15/01/2026",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Enero / Julio)",
+                amortizacion: "3 cuotas: 33% (Ene-35), 33% (Ene-36) y 34% (Ene-37)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2027-01-15", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-07-15", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-01-15", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-07-15", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-01-15", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-07-15", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-01-15", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-07-15", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-01-15", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-07-15", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-01-15", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-07-15", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-01-15", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-07-15", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2034-01-15", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2034-07-15", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2035-01-15", renta: 3.875, amort: 33.00, vr: 67.00 },
+                { fecha: "2035-07-15", renta: 2.59625, amort: 0.0, vr: 67.00 },
+                { fecha: "2036-01-15", renta: 2.59625, amort: 33.00, vr: 34.00 },
+                { fecha: "2036-07-15", renta: 1.3175, amort: 0.0, vr: 34.00 },
+                { fecha: "2037-01-15", renta: 1.3175, amort: 34.00, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "TLCMO",
+            emisor: "Telecom Argentina S.A. Cl. 21",
+            vencimiento: "2031-07-18",
+            ultCupon: "2026-07-18",
+            cuponAnual: 9.5,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "18/07/2024",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Enero / Julio)",
+                amortizacion: "3 cuotas: 33% (Jul-29), 33% (Jul-30) y 34% (Jul-31)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2027-01-18", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-07-18", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-01-18", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-07-18", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-01-18", renta: 4.75, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-07-18", renta: 4.75, amort: 33.00, vr: 67.00 },
+                { fecha: "2030-01-18", renta: 3.1825, amort: 0.0, vr: 67.00 },
+                { fecha: "2030-07-18", renta: 3.1825, amort: 33.00, vr: 34.00 },
+                { fecha: "2031-01-18", renta: 1.615, amort: 0.0, vr: 34.00 },
+                { fecha: "2031-07-18", renta: 1.615, amort: 34.00, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "EAC4O",
+            emisor: "MSU Green Energy S.A. Internacionales Cl. 4",
+            vencimiento: "2036-06-16",
+            ultCupon: "2026-06-16",
+            cuponAnual: 9.75,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "16/06/2026",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Junio / Diciembre)",
+                amortizacion: "3 cuotas: 33% (Jun-34), 33% (Jun-35) y 34% (Jun-36)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-12-16", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-06-16", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-12-16", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-06-16", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-12-16", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-06-16", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-12-16", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-06-16", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-12-16", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-06-16", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-12-16", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-06-16", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-12-16", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-06-16", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-12-16", renta: 4.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2034-06-16", renta: 4.875, amort: 33.00, vr: 67.00 },
+                { fecha: "2034-12-16", renta: 3.26625, amort: 0.0, vr: 67.00 },
+                { fecha: "2035-06-16", renta: 3.26625, amort: 33.00, vr: 34.00 },
+                { fecha: "2035-12-16", renta: 1.6575, amort: 0.0, vr: 34.00 },
+                { fecha: "2036-06-16", renta: 1.6575, amort: 34.00, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "YMCIO",
+            emisor: "YPF S.A. Cl. XVII",
+            vencimiento: "2029-06-30",
+            ultCupon: "2026-06-30",
+            cuponAnual: 9.0,
+            frecuencia: 2,
+            valorResidual: 85.71,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "12/02/2021",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Junio / Diciembre)",
+                amortizacion: "7 cuotas iguales de ~14,29% semestrales desde jun-26 hasta jun-29 (ya en amortización)",
+                calificacion: "S/D"
+            },
+            cronogramaPasado: [
+                { fecha: "2021-02-12", renta: 0, amort: 0 },
+                { fecha: "2021-06-30", renta: 0.958333, amort: 0 },
+                { fecha: "2021-12-30", renta: 1.25, amort: 0 },
+                { fecha: "2022-06-30", renta: 1.25, amort: 0 },
+                { fecha: "2022-12-30", renta: 1.25, amort: 0 },
+                { fecha: "2023-06-30", renta: 4.5, amort: 0 },
+                { fecha: "2023-12-30", renta: 4.5, amort: 0 },
+                { fecha: "2024-06-30", renta: 4.5, amort: 0 },
+                { fecha: "2024-12-30", renta: 4.5, amort: 0 },
+                { fecha: "2025-06-30", renta: 4.5, amort: 0 },
+                { fecha: "2025-12-30", renta: 4.5, amort: 0 },
+                { fecha: "2026-06-30", renta: 4.5, amort: 14.285714 }
+            ],
+            cronograma: [
+                { fecha: "2026-12-30", renta: 3.857143, amort: 14.285714, vr: 71.43 },
+                { fecha: "2027-06-30", renta: 3.214286, amort: 14.285714, vr: 57.14 },
+                { fecha: "2027-12-30", renta: 2.571429, amort: 14.285714, vr: 42.86 },
+                { fecha: "2028-06-30", renta: 1.928571, amort: 14.285714, vr: 28.57 },
+                { fecha: "2028-12-30", renta: 1.285714, amort: 14.285714, vr: 14.29 },
+                { fecha: "2029-06-30", renta: 0.642857, amort: 14.29, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "MGCOO",
+            emisor: "Pampa Energía S.A. Cl. 23",
+            vencimiento: "2034-12-16",
+            ultCupon: "2026-06-16",
+            cuponAnual: 7.875,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 10000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "16/12/2024",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Junio / Diciembre)",
+                amortizacion: "Íntegra al vencimiento (bullet)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-12-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-06-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-12-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-06-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-12-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-06-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-12-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-06-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-12-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-06-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-12-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-06-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-12-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-06-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-12-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2034-06-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2034-12-16", renta: 3.9375, amort: 100.00, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "YMCJO",
+            emisor: "YPF S.A. Cl. XVIII",
+            vencimiento: "2033-09-30",
+            ultCupon: "2026-03-30",
+            cuponAnual: 7.0,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "12/02/2021",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Marzo / Septiembre)",
+                amortizacion: "4 cuotas: 25% (Sep-30), 25% (Sep-31), 25% (Sep-32) y 25% (Sep-33)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-09-30", renta: 3.5, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-03-30", renta: 3.5, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-09-30", renta: 3.5, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-03-30", renta: 3.5, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-09-30", renta: 3.5, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-03-30", renta: 3.5, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-09-30", renta: 3.5, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-03-30", renta: 3.5, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-09-30", renta: 3.5, amort: 25.00, vr: 75.00 },
+                { fecha: "2031-03-30", renta: 2.625, amort: 0.0, vr: 75.00 },
+                { fecha: "2031-09-30", renta: 2.625, amort: 25.00, vr: 50.00 },
+                { fecha: "2032-03-30", renta: 1.75, amort: 0.0, vr: 50.00 },
+                { fecha: "2032-09-30", renta: 1.75, amort: 25.00, vr: 25.00 },
+                { fecha: "2033-03-30", renta: 0.875, amort: 0.0, vr: 25.00 },
+                { fecha: "2033-09-30", renta: 0.875, amort: 25.00, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "VSCTO",
+            emisor: "Vista Energy Argentina S.A.U. Cl. XXVII",
+            vencimiento: "2035-12-10",
+            ultCupon: "2026-06-10",
+            cuponAnual: 7.625,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 10000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "10/12/2024",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Junio / Diciembre)",
+                amortizacion: "3 cuotas: 33% (Dic-33), 33% (Dic-34) y 34% (Dic-35)",
+                calificacion: "S/D"
+            },
+            cronograma: [
+                { fecha: "2026-12-10", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-06-10", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-12-10", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-06-10", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-12-10", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-06-10", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-12-10", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-06-10", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-12-10", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-06-10", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-12-10", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-06-10", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-12-10", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-06-10", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-12-10", renta: 3.8125, amort: 33.00, vr: 67.00 },
+                { fecha: "2034-06-10", renta: 2.554375, amort: 0.0, vr: 67.00 },
+                { fecha: "2034-12-10", renta: 2.554375, amort: 33.00, vr: 34.00 },
+                { fecha: "2035-06-10", renta: 1.29625, amort: 0.0, vr: 34.00 },
+                { fecha: "2035-12-10", renta: 1.29625, amort: 34.00, vr: 0.0 }
+            ]
+        }
+    ];
+
+    let indiceOnActual = 0;
+    hoyInput.addEventListener('change', recalcularTodo);
+
+    function cambiarMonedaEntrada() {
+        const moneda = document.getElementById('monedaEntrada').value;
+        const groupTc = document.getElementById('groupTc');
+        const thPrecio = document.getElementById('thPrecio');
+        const tc = parseFloat(document.getElementById('tipoCambio').value) || 1500;
+
+        if (moneda === 'ARS') {
+            groupTc.style.display = 'flex';
+            thPrecio.innerText = 'Precio Dirty ($ ARS)';
+        } else {
+            groupTc.style.display = 'none';
+            thPrecio.innerText = 'Precio Dirty (USD)';
+        }
+
+        ONS_BASE.forEach((on, index) => {
+            const precioInput = document.getElementById(`precio-${index}`);
+            if (moneda === 'ARS') {
+                precioInput.value = (on.precioUsdInicial * tc).toFixed(2);
+            } else {
+                precioInput.value = on.precioUsdInicial.toFixed(2);
+            }
+        });
+
+        recalcularTodo();
+    }
+
+    function actualizarPreciosPorTC() {
+        const moneda = document.getElementById('monedaEntrada').value;
+        if (moneda === 'ARS') {
+            const tc = parseFloat(document.getElementById('tipoCambio').value) || 1500;
+            ONS_BASE.forEach((on, index) => {
+                const precioInput = document.getElementById(`precio-${index}`);
+                precioInput.value = (on.precioUsdInicial * tc).toFixed(2);
+            });
+        }
+        recalcularTodo();
+    }
+
+    function formatearFechaAR(fechaStr) {
+        const partes = fechaStr.split('-');
+        return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    }
+
+    function calcularDiasAccrued30360(fechaUltCupon, fechaLiq) {
+        let d1 = fechaUltCupon.getDate();
+        let m1 = fechaUltCupon.getMonth() + 1;
+        let y1 = fechaUltCupon.getFullYear();
+
+        let d2 = fechaLiq.getDate();
+        let m2 = fechaLiq.getMonth() + 1;
+        let y2 = fechaLiq.getFullYear();
+
+        if (d1 === 31) d1 = 30;
+        if (d2 === 31 && d1 >= 30) d2 = 30;
+
+        let dias = (y2 - y1) * 360 + (m2 - m1) * 30 + (d2 - d1);
+        return Math.max(0, dias);
+    }
+
+    function poblarBuscador() {
+        const datalist = document.getElementById('listaTickers');
+        datalist.innerHTML = '';
+        ONS_BASE.forEach(on => {
+            const opt = document.createElement('option');
+            opt.value = `${on.ticker} - ${on.emisor}`;
+            datalist.appendChild(opt);
+        });
+    }
+
+    function buscarYAbrirON() {
+        const inputBuscador = document.getElementById('buscadorTicker');
+        const val = inputBuscador.value.trim();
+        if (!val) return;
+
+        const tickerCandidato = val.split(' - ')[0].trim().toUpperCase();
+        let idx = ONS_BASE.findIndex(o => o.ticker.toUpperCase() === tickerCandidato);
+
+        if (idx === -1) {
+            const valLower = val.toLowerCase();
+            idx = ONS_BASE.findIndex(o =>
+                o.ticker.toLowerCase().includes(valLower) || o.emisor.toLowerCase().includes(valLower)
+            );
+        }
+
+        if (idx === -1) {
+            alert(`No se encontró ninguna ON que coincida con "${val}"`);
+            return;
+        }
+
+        const tr = document.querySelector(`#tablaCuerpo tr[data-index="${idx}"]`);
+        if (tr) {
+            if (tr.style.display === 'none') {
+                alert(`${ONS_BASE[idx].ticker} ya venció y está oculto del listado.`);
+            }
+            tr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            const bgOriginal = tr.style.backgroundColor;
+            tr.style.transition = 'background-color 0.4s';
+            tr.style.backgroundColor = '#fef08a';
+            setTimeout(() => { tr.style.backgroundColor = bgOriginal; }, 1800);
+        }
+
+        inputBuscador.value = '';
+
+        const inputPrecio = document.getElementById(`precio-${idx}`);
+        if (inputPrecio) {
+            setTimeout(() => {
+                inputPrecio.focus();
+                inputPrecio.select();
+            }, 400);
+        } else {
+            inputBuscador.blur();
+        }
+    }
+
+    function construirTabla() {
+        const tbody = document.getElementById('tablaCuerpo');
+        tbody.innerHTML = '';
+
+        ONS_BASE.forEach((on, index) => {
+            const tr = document.createElement('tr');
+            tr.dataset.index = index;
+            tr.dataset.vencimiento = on.vencimiento;
+            tr.innerHTML = `
+                <td class="ticker">${on.ticker}</td>
+                <td style="text-align: left;">${on.emisor}</td>
+                <td>${formatearFechaAR(on.vencimiento)}</td>
+                <td>
+                    <input type="number" id="precio-${index}" class="editable-input" value="${on.precioUsdInicial.toFixed(2)}" step="0.05" oninput="actualizarFila(${index})">
+                    <span id="subPrecio-${index}" class="sub-val"></span>
+                </td>
+                <td id="clean-${index}">-</td>
+                <td id="vt-${index}">-</td>
+                <td id="ic-${index}">-</td>
+                <td id="paridad-${index}">-</td>
+                <td id="cy-${index}">-</td>
+                <td id="tirNominal-${index}" style="font-weight: bold; color: #0284c7;">-</td>
+                <td id="tirEfectiva-${index}">-</td>
+                <td id="duration-${index}">-</td>
+                <td id="proxCupon-${index}" style="font-weight: 600; color: #1e293b;">-</td>
+                <td style="font-weight: 600;">${on.laminaMinima.toLocaleString('es-AR')} VN</td>
+                <td><button class="btn-detalle" onclick="verDetalle(${index})">Ver detalle</button></td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        recalcularTodo();
+    }
+
+    function obtenerFlujos(on, fechaLiq) {
+        let flujos = [];
+
+        on.cronograma.forEach((item) => {
+            let fPago = new Date(item.fecha + 'T00:00:00');
+            let tDias = calcularDiasAccrued30360(fechaLiq, fPago);
+
+            if (fPago > fechaLiq) {
+                flujos.push({
+                    fechaStr: item.fecha,
+                    dias: tDias,
+                    tAnios: tDias / 360,
+                    interes: item.renta,
+                    amort: item.amort,
+                    montoTotal: item.renta + item.amort
+                });
+            }
+        });
+
+        return flujos;
+    }
+
+    function calcularMetricasConPrecio(pDirtyUsd, on, flujos, interesCorrido) {
+        if (flujos.length === 0) return { tirNominal: 0, tirEfectiva: 0, modDuration: 0, paridad: 0, yNominal: 0 };
+
+        let y = 0.085;
+
+        for (let iter = 0; iter < 100; iter++) {
+            let van = 0, dVan = 0;
+            for (let i = 0; i < flujos.length; i++) {
+                let f = flujos[i];
+                let k = f.tAnios * on.frecuencia;
+                let df = Math.pow(1 + y / on.frecuencia, -k);
+                van += f.montoTotal * df;
+                dVan -= k * f.montoTotal * df / (1 + y / on.frecuencia);
+            }
+            let diff = van - pDirtyUsd;
+            if (Math.abs(diff) < 0.000001) break;
+            y = y - diff / dVan;
+        }
+
+        let tirNominal = y * 100;
+        let tirEfectiva = (Math.pow(1 + y / on.frecuencia, on.frecuencia) - 1) * 100;
+
+        const paridad = (pDirtyUsd / (on.valorResidual + interesCorrido)) * 100;
+
+        let macDur = 0, pvTotal = 0;
+        let yNominal = (Math.pow(1 + tirEfectiva / 100, 1 / on.frecuencia) - 1) * on.frecuencia;
+
+        for (let f of flujos) {
+            let pv = f.montoTotal * Math.pow(1 + yNominal / on.frecuencia, -f.tAnios * on.frecuencia);
+            macDur += f.tAnios * pv;
+            pvTotal += pv;
+        }
+        let modDuration = pvTotal > 0 ? (macDur / pvTotal) / (1 + yNominal / on.frecuencia) : 0;
+
+        return { tirNominal, tirEfectiva, modDuration, paridad, yNominal };
+    }
+
+    function calcularPrecioDesdeTIR(tirEfectivaInput, on, flujos) {
+        if (flujos.length === 0) return 0;
+
+        let yNominal = on.frecuencia * (Math.pow(1 + tirEfectivaInput / 100, 1 / on.frecuencia) - 1);
+        let van = 0;
+
+        for (let i = 0; i < flujos.length; i++) {
+            let f = flujos[i];
+            let df = Math.pow(1 + yNominal / on.frecuencia, -f.tAnios * on.frecuencia);
+            van += f.montoTotal * df;
+        }
+
+        return van;
+    }
+
+    function actualizarFila(index) {
+        const on = ONS_BASE[index];
+        const fechaLiq = new Date(hoyInput.value + 'T00:00:00');
+        const fechaUlt = new Date(on.ultCupon + 'T00:00:00');
+
+        const moneda = document.getElementById('monedaEntrada').value;
+        const tc = parseFloat(document.getElementById('tipoCambio').value) || 1500;
+
+        const precioInput = document.getElementById(`precio-${index}`);
+        const precioIngresado = parseFloat(precioInput.value);
+
+        if (isNaN(precioIngresado) || precioIngresado <= 0) return;
+
+        let precioDirtyUsd = precioIngresado;
+        const subPrecioSpan = document.getElementById(`subPrecio-${index}`);
+
+        if (moneda === 'ARS') {
+            precioDirtyUsd = precioIngresado / tc;
+            subPrecioSpan.innerText = `USD ${precioDirtyUsd.toFixed(2)}`;
+        } else {
+            subPrecioSpan.innerText = '';
+        }
+
+        let diasAccrued = calcularDiasAccrued30360(fechaUlt, fechaLiq);
+
+        const interesCorrido = (on.cuponAnual / 360) * diasAccrued * (on.valorResidual / 100);
+        const valorTecnico = on.valorResidual + interesCorrido;
+        const precioCleanUsd = precioDirtyUsd - interesCorrido;
+
+        const currentYield = precioCleanUsd > 0 ? (on.cuponAnual / precioCleanUsd) * 100 : 0;
+        const flujos = obtenerFlujos(on, fechaLiq);
+
+        if (flujos.length > 0) {
+            document.getElementById(`proxCupon-${index}`).innerText = formatearFechaAR(flujos[0].fechaStr);
+        } else {
+            document.getElementById(`proxCupon-${index}`).innerText = "Vencido";
+        }
+
+        const m = calcularMetricasConPrecio(precioDirtyUsd, on, flujos, interesCorrido);
+
+        document.getElementById(`clean-${index}`).innerText = precioCleanUsd.toFixed(4);
+        document.getElementById(`vt-${index}`).innerText = valorTecnico.toFixed(2);
+        document.getElementById(`ic-${index}`).innerText = interesCorrido.toFixed(2);
+        document.getElementById(`paridad-${index}`).innerText = `${m.paridad.toFixed(2)}%`;
+        document.getElementById(`cy-${index}`).innerText = `${currentYield.toFixed(2)}%`;
+        document.getElementById(`tirNominal-${index}`).innerText = `${m.tirNominal.toFixed(2)}%`;
+        document.getElementById(`tirEfectiva-${index}`).innerText = `${m.tirEfectiva.toFixed(2)}%`;
+        document.getElementById(`duration-${index}`).innerText = m.modDuration.toFixed(2);
+
+        if (indiceOnActual === index && document.getElementById('modalCashflow').style.display === 'flex') {
+            generarSensibilidad();
+        }
+    }
+
+    function verDetalle(index) {
+        indiceOnActual = index;
+        const on = ONS_BASE[index];
+        document.getElementById('modalTitulo').innerText = `Simulador de Cash Flow — ${on.ticker} (${on.emisor})`;
+        
+        document.getElementById('tenenciaInput').value = 100;
+        document.getElementById('mostrarPagosRealizados').checked = false;
+        document.getElementById('techPanel').style.display = 'none';
+        document.getElementById('sensPanel').style.display = 'none';
+        
+        const techBody = document.getElementById('techGridBody');
+        techBody.innerHTML = `
+            <div class="tech-item"><span class="label">Jurisdicción:</span><span class="value">${on.fichaTecnica.ley}</span></div>
+            <div class="tech-item"><span class="label">Fecha de Emisión:</span><span class="value">${on.fichaTecnica.emision}</span></div>
+            <div class="tech-item"><span class="label">Moneda de Pago:</span><span class="value">${on.fichaTecnica.monedaPago}</span></div>
+            <div class="tech-item"><span class="label">Frecuencia de Renta:</span><span class="value">${on.fichaTecnica.frecuenciaPago}</span></div>
+            <div class="tech-item"><span class="label">Amortización:</span><span class="value">${on.fichaTecnica.amortizacion}</span></div>
+            <div class="tech-item"><span class="label">Calificación Riesgo:</span><span class="value">${on.fichaTecnica.calificacion}</span></div>
+        `;
+
+        recalcularModal();
+        generarSensibilidad();
+        document.getElementById('modalCashflow').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function toggleTechPanel() {
+        const panel = document.getElementById('techPanel');
+        panel.style.display = (panel.style.display === 'none' || panel.style.display === '') ? 'block' : 'none';
+    }
+
+    function toggleSensPanel() {
+        const panel = document.getElementById('sensPanel');
+        panel.style.display = (panel.style.display === 'none' || panel.style.display === '') ? 'block' : 'none';
+    }
+
+    function obtenerPrecioBaseUsdActual() {
+        const moneda = document.getElementById('monedaEntrada').value;
+        const tc = parseFloat(document.getElementById('tipoCambio').value) || 1500;
+        const precioIngresado = parseFloat(document.getElementById(`precio-${indiceOnActual}`).value) || 100;
+
+        if (moneda === 'ARS') {
+            return precioIngresado / tc;
+        }
+        return precioIngresado;
+    }
+
+    function generarSensibilidad() {
+        const on = ONS_BASE[indiceOnActual];
+        const fechaLiq = new Date(hoyInput.value + 'T00:00:00');
+        const fechaUlt = new Date(on.ultCupon + 'T00:00:00');
+        
+        const precioBaseUsd = obtenerPrecioBaseUsdActual();
+        const flujos = obtenerFlujos(on, fechaLiq);
+
+        let diasAccrued = calcularDiasAccrued30360(fechaUlt, fechaLiq);
+        const interesCorrido = (on.cuponAnual / 360) * diasAccrued * (on.valorResidual / 100);
+
+        const varP = parseFloat(document.getElementById('varPrecioInput').value) || 1;
+        const varT = parseFloat(document.getElementById('varTirInput').value) || 1;
+
+        const bodyP = document.getElementById('bodySensPrecio');
+        bodyP.innerHTML = '';
+
+        const escalones = [-4, -3, -2, -1, 0, 1, 2, 3, 4];
+        escalones.forEach(k => {
+            let signoVarP = k >= 0 ? 1 : -1;
+            let pCalcUsd = precioBaseUsd * Math.pow(1 + signoVarP * varP / 100, Math.abs(k));
+            let m = calcularMetricasConPrecio(pCalcUsd, on, flujos, interesCorrido);
+            let isBase = k === 0;
+
+            let tr = document.createElement('tr');
+            if (isBase) tr.className = 'highlight';
+            tr.innerHTML = `
+                <td>${pCalcUsd.toFixed(2)}</td>
+                <td>${m.tirEfectiva.toFixed(2)}%</td>
+                <td>${m.modDuration.toFixed(2)}</td>
+                <td>${m.paridad.toFixed(2)}%</td>
+            `;
+            bodyP.appendChild(tr);
+        });
+
+        const bodyT = document.getElementById('bodySensTir');
+        bodyT.innerHTML = '';
+
+        const mBase = calcularMetricasConPrecio(precioBaseUsd, on, flujos, interesCorrido);
+        const tirEfectivaBase = mBase.tirEfectiva;
+
+        let filaPrecios = escalones.map(k => {
+            let tirCalcEfectiva = tirEfectivaBase + (k * varT);
+            return {
+                k,
+                tirEfectiva: tirCalcEfectiva,
+                precioUsd: calcularPrecioDesdeTIR(tirCalcEfectiva, on, flujos)
+            };
+        });
+
+        filaPrecios.forEach((item, idx) => {
+            let isBase = item.k === 0;
+            let varPctTexto = '-';
+            let varAbsTexto = '-';
+
+            if (!isBase && idx > 0) {
+                let precioAnterior = filaPrecios[idx - 1].precioUsd;
+                let varPct = ((item.precioUsd - precioAnterior) / precioAnterior) * 100;
+                let varAbs = Math.abs(item.precioUsd - precioAnterior);
+
+                if (item.k < 0) {
+                    varPctTexto = `${Math.abs(varPct).toFixed(2)}%`;
+                } else {
+                    varPctTexto = `-${Math.abs(varPct).toFixed(2)}%`;
+                }
+
+                varAbsTexto = varAbs.toFixed(2);
+            }
+
+            let tr = document.createElement('tr');
+            if (isBase) tr.className = 'highlight';
+            tr.innerHTML = `
+                <td>${item.tirEfectiva.toFixed(2)}%</td>
+                <td>${item.precioUsd.toFixed(2)}</td>
+                <td>${varPctTexto}</td>
+                <td>${varAbsTexto}</td>
+            `;
+            bodyT.appendChild(tr);
+        });
+    }
+
+    function parseFechaDDMMYYYY(fechaStr) {
+        const partes = fechaStr.split('/');
+        return new Date(parseInt(partes[2]), parseInt(partes[1]) - 1, parseInt(partes[0]));
+    }
+
+    function obtenerFlujosCompletos(on, fechaLiq) {
+        let pasados = [];
+
+        if (on.cronogramaPasado) {
+            // historial real (bonos que ya venían amortizando antes de hoy)
+            pasados = on.cronogramaPasado.map(item => ({
+                fechaStr: item.fecha,
+                dias: 0,
+                tAnios: 0,
+                interes: item.renta,
+                amort: item.amort,
+                montoTotal: item.renta + item.amort,
+                pagado: true
+            }));
+        } else {
+            // genera sintéticamente los cupones ya pagados a tasa fija (VR 100) desde la emisión
+            const emision = parseFechaDDMMYYYY(on.fichaTecnica.emision);
+            const pasoMeses = 12 / on.frecuencia;
+            const primerFuturo = new Date(on.cronograma[0].fecha + 'T00:00:00');
+
+            let fechasPasadas = [];
+            let cursor = new Date(primerFuturo);
+            while (true) {
+                cursor = new Date(cursor);
+                cursor.setMonth(cursor.getMonth() - pasoMeses);
+                if (cursor <= emision) break;
+                fechasPasadas.unshift(new Date(cursor));
+            }
+
+            pasados.push({
+                fechaStr: emision.toISOString().slice(0, 10),
+                dias: 0, tAnios: 0,
+                interes: 0, amort: 0, montoTotal: 0,
+                pagado: true
+            });
+
+            fechasPasadas.forEach(f => {
+                pasados.push({
+                    fechaStr: f.toISOString().slice(0, 10),
+                    dias: 0, tAnios: 0,
+                    interes: on.cuponAnual / on.frecuencia,
+                    amort: 0,
+                    montoTotal: on.cuponAnual / on.frecuencia,
+                    pagado: true
+                });
+            });
+        }
+
+        let futuros = on.cronograma.map(item => {
+            let fPago = new Date(item.fecha + 'T00:00:00');
+            let tDias = calcularDiasAccrued30360(fechaLiq, fPago);
+            return {
+                fechaStr: item.fecha,
+                dias: tDias,
+                tAnios: tDias / 360,
+                interes: item.renta,
+                amort: item.amort,
+                montoTotal: item.renta + item.amort,
+                pagado: fPago <= fechaLiq
+            };
+        });
+
+        const flujos = pasados.concat(futuros);
+        const idxProximo = flujos.findIndex(f => !f.pagado);
+        flujos.forEach((f, i) => { f.proximo = (i === idxProximo); });
+
+        return flujos;
+    }
+
+    function recalcularModal() {
+        const on = ONS_BASE[indiceOnActual];
+        const fechaLiq = new Date(hoyInput.value + 'T00:00:00');
+        const mostrarPagados = document.getElementById('mostrarPagosRealizados').checked;
+        const flujos = mostrarPagados ? obtenerFlujosCompletos(on, fechaLiq) : obtenerFlujos(on, fechaLiq);
+
+        const nominales = parseFloat(document.getElementById('tenenciaInput').value) || 0;
+        const factor = nominales / 100;
+
+        const tbodyModal = document.getElementById('modalTablaCuerpo');
+        tbodyModal.innerHTML = '';
+
+        let totalInt = 0;
+        let totalAm = 0;
+
+        flujos.forEach(f => {
+            const intSimulado = f.interes * factor;
+            const amortSimulada = f.amort * factor;
+            const totalSimulado = f.montoTotal * factor;
+
+            if (!f.pagado) {
+                totalInt += intSimulado;
+                totalAm += amortSimulada;
+            }
+
+            const filaPagada = f.pagado === true;
+            const estiloFila = filaPagada ? ' style="opacity: 0.55; font-style: italic;"' : '';
+            const badgeProximo = f.proximo ? ' <span style="background:#2563eb; color:#fff; font-size:10px; font-style: normal; padding:2px 6px; border-radius:10px; margin-left:6px;">Próxima</span>' : '';
+            const badgePagado = filaPagada ? ' <span style="background:#94a3b8; color:#fff; font-size:10px; font-style: normal; padding:2px 6px; border-radius:10px; margin-left:6px;">Pagado</span>' : '';
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td${estiloFila}>${formatearFechaAR(f.fechaStr)}${badgeProximo}${badgePagado}</td>
+                <td${estiloFila}>${f.dias}</td>
+                <td${estiloFila}>USD ${intSimulado.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                <td${estiloFila}>USD ${amortSimulada.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                <td style="font-weight: bold; color: #1e293b;${filaPagada ? ' opacity: 0.55; font-style: italic;' : ''}">USD ${totalSimulado.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+            `;
+            tbodyModal.appendChild(tr);
+        });
+
+        document.getElementById('totalInteres').innerText = `USD ${(totalInt).toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        document.getElementById('totalAmort').innerText = `USD ${(totalAm).toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        document.getElementById('totalFlujo').innerText = `USD ${(totalInt + totalAm).toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    }
+
+    function cerrarModal() {
+        document.getElementById('modalCashflow').style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    function ocultarVencidas() {
+        const fechaLiq = hoyInput.value;
+        const tbody = document.getElementById('tablaCuerpo');
+        if (!tbody) return;
+        Array.from(tbody.querySelectorAll('tr')).forEach(tr => {
+            const venc = tr.dataset.vencimiento;
+            tr.style.display = (venc && venc <= fechaLiq) ? 'none' : '';
+        });
+    }
+
+    function recalcularTodo() {
+        ONS_BASE.forEach((_, index) => actualizarFila(index));
+        ocultarVencidas();
+    }
+
+    let ordenVencimientoAsc = true;
+
+    function ordenarPorVencimiento() {
+        const tbody = document.getElementById('tablaCuerpo');
+        const filas = Array.from(tbody.querySelectorAll('tr'));
+
+        filas.sort((a, b) => {
+            const fa = a.dataset.vencimiento;
+            const fb = b.dataset.vencimiento;
+            if (fa < fb) return ordenVencimientoAsc ? -1 : 1;
+            if (fa > fb) return ordenVencimientoAsc ? 1 : -1;
+            return 0;
+        });
+
+        filas.forEach(fila => tbody.appendChild(fila));
+
+        document.getElementById('flechaVenc').innerText = ordenVencimientoAsc ? '▲' : '▼';
+        ordenVencimientoAsc = !ordenVencimientoAsc;
+    }
+
+    construirTabla();
+    poblarBuscador();
+    ocultarVencidas();
+
+    window.addEventListener('pageshow', function () {
+        const chk = document.getElementById('mostrarPagosRealizados');
+        if (chk) chk.checked = false;
+    });
+</script>
+</body>
+</html>
