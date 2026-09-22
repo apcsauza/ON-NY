@@ -54,6 +54,75 @@
             margin-top: 4px;
         }
 
+        .header-hero {
+            background: linear-gradient(135deg, #142c52, #1a365d);
+            color: #ffffff;
+            border-radius: 12px;
+            padding: 24px 26px;
+            margin-bottom: 14px;
+        }
+
+        .header-hero-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-hero-grid h1 {
+            justify-self: center;
+            text-align: center;
+        }
+
+        .header-hero-grid .badge-asesor {
+            justify-self: start;
+        }
+
+        @media (max-width: 640px) {
+            .header-hero-grid {
+                grid-template-columns: 1fr;
+                justify-items: center;
+                text-align: center;
+            }
+            .header-hero-grid .badge-asesor {
+                justify-self: center;
+                order: 2;
+                margin-top: 4px;
+            }
+            .header-hero-grid h1 {
+                order: 1;
+            }
+        }
+
+        .header-hero h1 {
+            margin: 0 0 12px 0;
+            font-size: 19px;
+            font-weight: 800;
+            line-height: 1.3;
+        }
+
+        .badge-asesor {
+            display: inline-block;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.35);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 7px 18px;
+            border-radius: 999px;
+        }
+
+        .banner-exclusivo {
+            background: #eaf2fb;
+            color: #1a365d;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 12px 18px;
+            border-radius: 8px;
+            border: 1px solid #d7e6f7;
+            margin-bottom: 22px;
+        }
+
         .controls-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -92,6 +161,34 @@
         .table-container {
             border: 1px solid #e2e8f0;
             border-radius: 8px;
+        }
+
+        .table-container table th:nth-child(1),
+        .table-container table td:nth-child(1) {
+            position: sticky;
+            left: 0;
+            width: 90px;
+            min-width: 90px;
+        }
+
+        .table-container table th:nth-child(2),
+        .table-container table td:nth-child(2) {
+            position: sticky;
+            left: 90px;
+            width: 150px;
+            min-width: 150px;
+            box-shadow: 2px 0 4px rgba(0,0,0,0.08);
+        }
+
+        .table-container table td:nth-child(1),
+        .table-container table td:nth-child(2) {
+            background-color: #ffffff;
+            z-index: 2;
+        }
+
+        .table-container table th:nth-child(1),
+        .table-container table th:nth-child(2) {
+            z-index: 11;
         }
 
         table {
@@ -255,6 +352,34 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.15);
         }
 
+        .btn-anio-flujo {
+            background-color: #e2e8f0;
+            color: #0f172a;
+            border: none;
+            padding: 7px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-anio-flujo:hover {
+            background-color: #cbd5e1;
+        }
+
+        .btn-anio-flujo.activo {
+            background-color: #0f172a;
+            color: white;
+        }
+
+        #flujoAnioTabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
         .tech-panel {
             display: none;
             background: #f8fafc;
@@ -409,6 +534,205 @@
 
         .disclaimer p { margin: 4px 0; }
 
+        .resumen-cartera {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 15px 18px;
+            margin-top: 15px;
+        }
+
+        .resumen-cartera h3 {
+            margin: 0 0 12px 0;
+            font-size: 14px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .resumen-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .resumen-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .resumen-label {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .resumen-valor {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        .resumen-nota {
+            margin-top: 10px;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .calendario-toggle {
+            margin: 20px 0 10px 0;
+            text-align: center;
+        }
+
+        .calendario-container {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 20px;
+        }
+
+        .calendario-container h3 {
+            margin: 0 0 12px 0;
+            font-size: 15px;
+            color: var(--primary);
+        }
+
+        .meses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .mes-check {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            cursor: pointer;
+        }
+
+        .mes-check input {
+            width: 15px;
+            height: 15px;
+            accent-color: var(--primary);
+        }
+
+        .calendario-botones {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .mes-bloque {
+            margin-bottom: 18px;
+        }
+
+        .mes-bloque h4 {
+            margin: 0 0 6px 0;
+            color: var(--primary);
+            font-size: 14px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 4px;
+        }
+
+        table.tabla-mes {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        table.tabla-mes th {
+            background: #1a365d;
+            color: #fff;
+            padding: 6px 8px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        table.tabla-mes td {
+            padding: 6px 8px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .sin-datos {
+            color: #94a3b8;
+            font-size: 12px;
+            font-style: italic;
+        }
+
+        .tabla-scroll-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table.tabla-candidatos th:nth-child(1),
+        table.tabla-candidatos td:nth-child(1) {
+            position: sticky;
+            left: 0;
+            width: 26px;
+            min-width: 26px;
+            z-index: 2;
+        }
+
+        table.tabla-candidatos th:nth-child(2),
+        table.tabla-candidatos td:nth-child(2) {
+            position: sticky;
+            left: 26px;
+            width: 56px;
+            min-width: 56px;
+            z-index: 2;
+        }
+
+        table.tabla-candidatos th:nth-child(3),
+        table.tabla-candidatos td:nth-child(3) {
+            position: sticky;
+            left: 82px;
+            width: 80px;
+            min-width: 80px;
+            z-index: 2;
+        }
+
+        table.tabla-candidatos th:nth-child(4),
+        table.tabla-candidatos td:nth-child(4) {
+            position: sticky;
+            left: 162px;
+            width: 150px;
+            min-width: 150px;
+            z-index: 2;
+            box-shadow: 2px 0 4px rgba(0,0,0,0.08);
+        }
+
+        table.tabla-candidatos td:nth-child(1),
+        table.tabla-candidatos td:nth-child(2),
+        table.tabla-candidatos td:nth-child(3),
+        table.tabla-candidatos td:nth-child(4) {
+            background-color: #ffffff;
+        }
+
+        table.tabla-candidatos th:nth-child(1),
+        table.tabla-candidatos th:nth-child(2),
+        table.tabla-candidatos th:nth-child(3),
+        table.tabla-candidatos th:nth-child(4) {
+            z-index: 3;
+        }
+
+        .tortas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
         .chk-pagos-realizados {
             display: inline-flex;
             align-items: center;
@@ -458,9 +782,16 @@
 <body>
 
 <div class="container">
-    <div class="header">
-        <h1>Calculadora de ONs USD Ley NY</h1>
-        <div class="advisor-info">Asesor Financiero: Carlos Sauza — Mat. CNV N° 1823</div>
+    <div class="header-hero">
+        <div class="header-hero-grid">
+            <span class="badge-asesor">Carlos Sauza — Mat. CNV N° 1823</span>
+            <h1>OBLIGACIONES NEGOCIABLES EN USD-LEY NY</h1>
+            <span></span>
+        </div>
+    </div>
+
+    <div class="banner-exclusivo">
+        🔒 Uso exclusivo para clientes del asesor Carlos Sauza (Mat. CNV N° 1823)
     </div>
 
     <div class="controls-grid">
@@ -490,15 +821,22 @@
         </div>
     </div>
 
+    <div style="display:flex; justify-content:flex-end; gap:8px; margin-bottom: 8px; flex-wrap:wrap;">
+        <button class="btn-action" id="btnActualizarData912" onclick="actualizarPreciosData912()">🔄 Actualizar precios (data912)</button>
+        <button class="btn-action" onclick="abrirModalCurva()">📈 Ver Curva</button>
+        <button class="btn-action" onclick="descargarTablaComoImagen()">📥 Descargar Cuadro</button>
+    </div>
+
     <div class="table-container">
         <table>
             <thead>
                 <tr>
                     <th>Ticker</th>
                     <th>Emisor</th>
-                    <th id="thVencimiento" onclick="ordenarPorVencimiento()" style="cursor: pointer; user-select: none;" title="Click para ordenar">Vencimiento <span id="flechaVenc">⇅</span></th>
+                    <th id="thVencimiento" onclick="ordenarPorColumna('vencimiento', 'thVencimiento', 'flechaVenc')" style="cursor: pointer; user-select: none;" title="Click para ordenar">Vencimiento <span id="flechaVenc" class="flecha-orden">⇅</span></th>
                     <th id="thPrecio">Precio Dirty (USD)</th>
-                    <th>Clean USD</th>
+                    <th>Cupón (%)</th>
+                    <th style="display:none;">Clean USD</th>
                     <th>Val. Técnico</th>
                     <th>Int. Corrido</th>
                     <th>Paridad (%)</th>
@@ -508,11 +846,125 @@
                     <th>Mod. Duration</th>
                     <th>Próx. Cupón</th>
                     <th>Lámina Min.</th>
+                    <th>Calificación</th>
                     <th>Cash Flow</th>
                 </tr>
             </thead>
             <tbody id="tablaCuerpo"></tbody>
         </table>
+    </div>
+
+    <div class="calendario-toggle">
+        <button class="btn-action" onclick="toggleCalendario()">📅 Armar Cartera por Meses de Cobro</button>
+    </div>
+
+    <div class="calendario-container" id="calendarioContainer" style="display: none;">
+        <h3>📅 Elegí en qué meses querés cobrar cupones</h3>
+        <div class="meses-grid" id="mesesGrid"></div>
+        <div class="calendario-botones">
+            <button class="btn-action" onclick="marcarTodosMeses(true)">Marcar todos</button>
+            <button class="btn-action" onclick="marcarTodosMeses(false)">Desmarcar todos</button>
+        </div>
+
+        <h3>🏅 Filtrar por calificación (opcional)</h3>
+        <div class="meses-grid" id="calificacionesGrid"></div>
+        <div class="calendario-botones">
+            <button class="btn-action" onclick="marcarTodasCalificaciones(true)">Marcar todas</button>
+            <button class="btn-action" onclick="marcarTodasCalificaciones(false)">Desmarcar todas</button>
+        </div>
+
+        <h3>📆 Vencimiento máximo (opcional)</h3>
+        <div class="input-group" style="max-width: 220px; margin-bottom: 12px;">
+            <input type="number" id="filtroVencimientoMax" placeholder="Ej: 2030" min="2026" max="2050" step="1">
+            <div style="font-size: 11px; color: #64748b; margin-top: 4px;">Incluye vencimientos hasta el 31/12 de ese año</div>
+        </div>
+        <div class="calendario-botones">
+            <button class="btn-action" onclick="generarCarteraSugerida()">✨ Simular Cartera</button>
+        </div>
+
+        <div id="resultadoCalendario"></div>
+
+        <div class="calendario-botones" id="botonResumenFinalWrap" style="display: none;">
+            <button class="btn-action" onclick="armarResumenFinal()">📋 Armar Resumen Final (editable)</button>
+        </div>
+
+        <div class="resumen-cartera" id="resumenFinalBox" style="display: none;">
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom: 10px;">
+                <h3 style="margin:0;">📦 Resumen Final de la Cartera</h3>
+                <button class="btn-action" onclick="descargarResumenComoImagen()">📥 Descargar</button>
+            </div>
+            <table class="tabla-mes" id="tablaResumenFinal">
+                <thead>
+                    <tr>
+                        <th style="width:70px;">Ticker</th>
+                        <th style="text-align:left; width:220px;">Emisor</th>
+                        <th style="width:80px;">Calificación</th>
+                        <th style="width:110px;">Industria</th>
+                        <th style="width:90px;">Meses que cubre</th>
+                        <th style="width:90px;">Precio (USD)</th>
+                        <th style="width:80px;">TIR</th>
+                        <th style="width:100px;">Nominales (VN)</th>
+                        <th style="width:80px;">Lámina Mín.</th>
+                        <th style="width:110px;">Valorizado (USD)</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaResumenFinalBody"></tbody>
+            </table>
+
+            <div class="tortas-grid">
+                <div>
+                    <h3 style="margin-top: 18px;">🥧 Composición por ON</h3>
+                    <div id="tortaCarteraContainer"></div>
+                </div>
+                <div>
+                    <h3 style="margin-top: 18px;">🏭 Composición por Industria</h3>
+                    <div id="tortaIndustriaContainer"></div>
+                </div>
+            </div>
+
+            <div class="resumen-grid" style="margin-top: 14px;">
+                <div class="resumen-item">
+                    <span class="resumen-label">Meses Cubiertos</span>
+                    <span class="resumen-valor" id="resFinalMeses">0 / 12</span>
+                </div>
+                <div class="resumen-item">
+                    <span class="resumen-label">Valorizado Total</span>
+                    <span class="resumen-valor" id="resFinalValorizado">USD 0.00</span>
+                </div>
+                <div class="resumen-item">
+                    <span class="resumen-label">TIR Efectiva Prom. Ponderada</span>
+                    <span class="resumen-valor" id="resFinalTir">0.00%</span>
+                </div>
+            </div>
+
+            <div class="calendario-botones" style="margin-top: 14px;">
+                <button class="btn-action" onclick="generarFlujoProyectado()">📈 Ver Flujo Proyectado</button>
+            </div>
+
+            <div class="resumen-cartera" id="flujoProyectadoBox" style="display: none; margin-top: 14px; background: #fff;">
+                <h3>📈 Flujo de Fondos Proyectado</h3>
+                <div class="calendario-botones" style="justify-content: space-between;">
+                    <div id="flujoAnioTabs"></div>
+                    <button class="btn-action" onclick="exportarFlujoExcel()">📥 Exportar a Excel</button>
+                </div>
+                <table class="tabla-mes">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Ticker</th>
+                            <th>Renta</th>
+                            <th>Amortización</th>
+                            <th>Total</th>
+                            <th>Acumulado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaFlujoProyectadoBody"></tbody>
+                </table>
+
+                <h3 style="margin-top: 20px; text-align: center;">Pagos en Dólares</h3>
+                <div id="chartPagosDolares" style="width: 100%; height: 320px; margin-top: 10px;"></div>
+            </div>
+        </div>
     </div>
 
     <div class="cta-banner">
@@ -522,7 +974,18 @@
 
     <div class="disclaimer">
         <p>⚠️ <strong>Disclaimer:</strong> Este dashboard es exclusivamente para fines educativos e informativos. No constituye asesoramiento financiero ni recomendación de inversión.</p>
-        <p>🔒 Uso exclusivo para clientes del asesor Carlos Sauza (Mat. CNV N° 1823).</p>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modalCurva">
+    <div class="modal-card" style="max-width: 1100px;">
+        <div class="modal-header">
+            <h3>📈 Curva de Rendimientos: ON USD Ley NY</h3>
+            <button class="btn-close" onclick="cerrarModalCurva()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div id="curvaChartContainer" style="width: 100%; height: 560px;"></div>
+        </div>
     </div>
 </div>
 
@@ -655,7 +1118,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Enero / Julio)",
                 amortizacion: "100% al vencimiento (Bullet)",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Banks"
             },
             cronograma: [
                 { fecha: "2027-01-28", renta: 4.0, amort: 0.0, vr: 100.0 },
@@ -686,7 +1150,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Abril / Octubre)",
                 amortizacion: "3 cuotas: 33.33% (Oct-28), 33.33% (Oct-29) y 33.34% (Oct-30)",
-                calificacion: "S/D"
+                calificacion: "AA-.ar",
+                industria: "Electric"
             },
             cronograma: [
                 { fecha: "2026-10-24", renta: 4.875, amort: 0.0, vr: 100.0 },
@@ -717,7 +1182,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Mayo / Noviembre)",
                 amortizacion: "100% al vencimiento (Bullet)",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Oil&Gas"
             },
             cronograma: [
                 { fecha: "2026-11-18", renta: 4.0625, amort: 0.0, vr: 100.0 },
@@ -749,7 +1215,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Abril / Octubre)",
                 amortizacion: "3 cuotas: 33.33% (Abr-30), 33.33% (Abr-31) y 33.34% (Abr-32)",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Oil&Gas"
             },
             cronograma: [
                 { fecha: "2026-10-30", renta: 4.25, amort: 0.0, vr: 100.0 },
@@ -783,7 +1250,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Junio / Diciembre)",
                 amortizacion: "17.50% (Dic-28), 17.50% (Dic-29) y 65.00% (Dic-30)",
-                calificacion: "S/D"
+                calificacion: "AA-.ar",
+                industria: "Energy-Alternate Sources"
             },
             cronograma: [
                 { fecha: "2026-12-05", renta: 4.875, amort: 0.0, vr: 100.0 },
@@ -814,7 +1282,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Enero / Julio)",
                 amortizacion: "3 cuotas: 33% (Jul-32), 33% (Jul-33) y 34% (Jul-34)",
-                calificacion: "S/D"
+                calificacion: "B.int",
+                industria: "Oil&Gas"
             },
             cronograma: [
                 { fecha: "2027-01-28", renta: 4.25, amort: 0.0, vr: 100.0 },
@@ -852,7 +1321,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Marzo / Septiembre)",
                 amortizacion: "100% al vencimiento (Bullet)",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Electric"
             },
             cronograma: [
                 { fecha: "2026-09-10", renta: 3.975, amort: 0.0, vr: 100.0 },
@@ -885,7 +1355,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Enero / Julio)",
                 amortizacion: "100% al vencimiento (Bullet)",
-                calificacion: "S/D"
+                calificacion: "B.int",
+                industria: "Pipelines"
             },
             cronograma: [
                 { fecha: "2027-01-24", renta: 4.25, amort: 0.0, vr: 100.0 },
@@ -917,7 +1388,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Junio / Diciembre)",
                 amortizacion: "100% al vencimiento (Bullet)",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Banks"
             },
             cronograma: [
                 { fecha: "2026-12-23", renta: 4.00, amort: 0.0, vr: 100.0 },
@@ -945,7 +1417,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Abril / Octubre)",
                 amortizacion: "3 cuotas: 33% (Oct-30), 33% (Oct-31) y 34% (Oct-32)",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Energy-Alternate Sources"
             },
             cronograma: [
                 { fecha: "2026-10-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
@@ -980,7 +1453,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Trimestral (Feb / May / Ago / Nov)",
                 amortizacion: "Amortización trimestral escalonada e irregular hasta ago-2031",
-                calificacion: "S/D"
+                calificacion: "AA+.ar",
+                industria: "Engineering&Construction"
             },
             cronograma: [
                 { fecha: "2026-11-02", renta: 2.07350275, amort: 0.0, vr: 97.58 },
@@ -1022,7 +1496,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Junio / Diciembre)",
                 amortizacion: "3 cuotas: 33% (Dic-31), 33% (Dic-32) y 34% (Dic-33)",
-                calificacion: "S/D"
+                calificacion: "AA+.int",
+                industria: "Electric"
             },
             cronograma: [
                 { fecha: "2026-12-02", renta: 3.875, amort: 0.0, vr: 100.0 },
@@ -1059,7 +1534,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Enero / Julio)",
                 amortizacion: "3 cuotas: 33% (Ene-31), 33% (Ene-32) y 34% (Ene-33)",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Oil&Gas"
             },
             cronograma: [
                 { fecha: "2027-01-22", renta: 3.8125, amort: 0.0, vr: 100.0 },
@@ -1094,7 +1570,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Junio / Diciembre)",
                 amortizacion: "Amortización semestral de 17.5 p.p. desde jun-2024",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Real Estate"
             },
             cronograma: [
                 { fecha: "2026-12-22", renta: 2.078125, amort: 0.0, vr: 47.50 },
@@ -1120,7 +1597,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Abril / Octubre)",
                 amortizacion: "100% al vencimiento (Bullet)",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Banks"
             },
             cronograma: [
                 { fecha: "2026-10-10", renta: 3.875, amort: 0.0, vr: 100.0 },
@@ -1147,7 +1625,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Junio / Diciembre)",
                 amortizacion: "3 cuotas: 33% (Jun-31), 33% (Jun-32) y 34% (Jun-33)",
-                calificacion: "S/D"
+                calificacion: "A.ar",
+                industria: "Electric"
             },
             cronograma: [
                 { fecha: "2026-12-11", renta: 4.875, amort: 0.0, vr: 100.0 },
@@ -1183,7 +1662,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Febrero / Agosto)",
                 amortizacion: "Amortización semestral de 12.5 p.p. desde feb-2025",
-                calificacion: "S/D"
+                calificacion: "AA.ar",
+                industria: "Electric"
             },
             cronograma: [
                 { fecha: "2027-02-25", renta: 2.3125, amort: 12.50, vr: 37.50 },
@@ -1209,7 +1689,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Enero / Julio)",
                 amortizacion: "100% al vencimiento (Bullet)",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Oil&Gas"
             },
             cronograma: [
                 { fecha: "2027-01-21", renta: 3.475, amort: 0.0, vr: 100.0 },
@@ -1233,7 +1714,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Febrero / Agosto)",
                 amortizacion: "100% al vencimiento (Bullet)",
-                calificacion: "S/D"
+                calificacion: "S/D",
+                industria: "Real Estate"
             },
             cronograma: [
                 { fecha: "2027-02-04", renta: 3.975, amort: 0.0, vr: 100.0 },
@@ -1275,7 +1757,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Junio / Diciembre)",
                 amortizacion: "100% al vencimiento (Bullet)",
-                calificacion: "S/D"
+                calificacion: "S/D",
+                industria: "Real Estate"
             },
             cronograma: [
                 { fecha: "2026-12-11", renta: 4.25, amort: 0.0, vr: 100.0 },
@@ -1310,7 +1793,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Abril / Octubre)",
                 amortizacion: "100% al vencimiento (Bullet)",
-                calificacion: "S/D"
+                calificacion: "AA.ar",
+                industria: "Real Estate"
             },
             cronograma: [
                 { fecha: "2026-10-24", renta: 4.125, amort: 0.0, vr: 100.0 },
@@ -1340,7 +1824,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Enero / Julio)",
                 amortizacion: "3 cuotas: 33% (Jul-29), 33% (Jul-30) y 34% (Jul-31)",
-                calificacion: "S/D"
+                calificacion: "S/D",
+                industria: "Electric"
             },
             cronograma: [
                 { fecha: "2027-01-28", renta: 4.875, amort: 0.0, vr: 100.0 },
@@ -1372,7 +1857,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Abril / Octubre)",
                 amortizacion: "Amortización semestral de 20 p.p. desde abr-2025",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Oil&Gas"
             },
             cronograma: [
                 { fecha: "2026-10-30", renta: 1.825, amort: 20.00, vr: 20.00 },
@@ -1396,7 +1882,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Mayo / Noviembre)",
                 amortizacion: "Íntegra al vencimiento (bullet)",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Electric"
             },
             cronograma: [
                 { fecha: "2026-11-14", renta: 3.875, amort: 0.0, vr: 100.0 },
@@ -1441,7 +1928,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Marzo / Septiembre)",
                 amortizacion: "3 cuotas: 33% (Sep-35), 33% (Sep-36) y 34% (Sep-37)",
-                calificacion: "S/D"
+                calificacion: "S/D",
+                industria: "Oil&Gas"
             },
             cronograma: [
                 { fecha: "2027-03-30", renta: 5.6625, amort: 0.0, vr: 100.0 },
@@ -1485,7 +1973,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Abril / Octubre)",
                 amortizacion: "3 cuotas: 33% (Abr-36), 33% (Abr-37) y 34% (Abr-38)",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Oil&Gas"
             },
             cronograma: [
                 { fecha: "2026-10-08", renta: 3.9375, amort: 0.0, vr: 100.0 },
@@ -1531,7 +2020,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Enero / Julio)",
                 amortizacion: "3 cuotas: 30% (Ene-32), 30% (Ene-33) y 40% (Ene-34)",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Oil&Gas"
             },
             cronograma: [
                 { fecha: "2027-01-17", renta: 4.125, amort: 0.0, vr: 100.0 },
@@ -1568,7 +2058,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Marzo / Septiembre)",
                 amortizacion: "3 cuotas: 20% (Sep-29), 20% (Sep-30) y 60% (Sep-31)",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Oil&Gas"
             },
             cronograma: [
                 { fecha: "2026-09-11", renta: 4.375, amort: 0.0, vr: 100.0 },
@@ -1601,7 +2092,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Marzo / Septiembre)",
                 amortizacion: "3 cuotas: 33% (Mar-33), 33% (Mar-34) y 34% (Mar-35)",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Real Estate"
             },
             cronograma: [
                 { fecha: "2026-09-30", renta: 4.00, amort: 0.0, vr: 100.0 },
@@ -1641,7 +2133,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Junio / Diciembre)",
                 amortizacion: "3 cuotas: 33% (Jun-31), 33% (Jun-32) y 34% (Jun-33)",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Oil&Gas"
             },
             cronograma: [
                 { fecha: "2026-12-10", renta: 4.25, amort: 0.0, vr: 100.0 },
@@ -1677,7 +2170,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Mayo / Noviembre)",
                 amortizacion: "2 cuotas: 50% (May-32) y 50% (May-33)",
-                calificacion: "S/D"
+                calificacion: "AA+.ar",
+                industria: "Telecommunications"
             },
             cronograma: [
                 { fecha: "2026-11-28", renta: 4.625, amort: 0.0, vr: 100.0 },
@@ -1713,7 +2207,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Enero / Julio)",
                 amortizacion: "2 cuotas: 50% (Ene-35) y 50% (Ene-36)",
-                calificacion: "S/D"
+                calificacion: "AA+.ar",
+                industria: "Telecommunications"
             },
             cronograma: [
                 { fecha: "2027-01-20", renta: 4.25, amort: 0.0, vr: 100.0 },
@@ -1754,7 +2249,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Abril / Octubre)",
                 amortizacion: "3 cuotas: 33.33% (Abr-31), 33.33% (Abr-32) y 33.34% (Abr-33)",
-                calificacion: "S/D"
+                calificacion: "S/D",
+                industria: "Electric"
             },
             cronograma: [
                 { fecha: "2026-10-28", renta: 4.75, amort: 0.0, vr: 100.0 },
@@ -1790,7 +2286,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Abril / Octubre)",
                 amortizacion: "3 cuotas: 33.33% (Abr-31), 33.33% (Abr-32) y 33.34% (Abr-33)",
-                calificacion: "S/D"
+                calificacion: "AA-.ar",
+                industria: "Electric"
             },
             cronograma: [
                 { fecha: "2026-10-28", renta: 4.75, amort: 0.0, vr: 100.0 },
@@ -1826,7 +2323,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Enero / Julio)",
                 amortizacion: "3 cuotas: 33% (Ene-35), 33% (Ene-36) y 34% (Ene-37)",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Oil&Gas"
             },
             cronograma: [
                 { fecha: "2027-01-15", renta: 3.875, amort: 0.0, vr: 100.0 },
@@ -1869,7 +2367,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Enero / Julio)",
                 amortizacion: "3 cuotas: 33% (Jul-29), 33% (Jul-30) y 34% (Jul-31)",
-                calificacion: "S/D"
+                calificacion: "AA+.ar",
+                industria: "Telecommunications"
             },
             cronograma: [
                 { fecha: "2027-01-18", renta: 4.75, amort: 0.0, vr: 100.0 },
@@ -1901,7 +2400,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Junio / Diciembre)",
                 amortizacion: "3 cuotas: 33% (Jun-34), 33% (Jun-35) y 34% (Jun-36)",
-                calificacion: "S/D"
+                calificacion: "AA-.ar",
+                industria: "Energy-Alternate Sources"
             },
             cronograma: [
                 { fecha: "2026-12-16", renta: 4.875, amort: 0.0, vr: 100.0 },
@@ -1943,7 +2443,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Junio / Diciembre)",
                 amortizacion: "7 cuotas iguales de ~14,29% semestrales desde jun-26 hasta jun-29 (ya en amortización)",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Oil&Gas"
             },
             cronogramaPasado: [
                 { fecha: "2021-02-12", renta: 0, amort: 0 },
@@ -1985,7 +2486,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Junio / Diciembre)",
                 amortizacion: "Íntegra al vencimiento (bullet)",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Electric"
             },
             cronograma: [
                 { fecha: "2026-12-16", renta: 3.9375, amort: 0.0, vr: 100.0 },
@@ -2024,7 +2526,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Marzo / Septiembre)",
                 amortizacion: "4 cuotas: 25% (Sep-30), 25% (Sep-31), 25% (Sep-32) y 25% (Sep-33)",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Oil&Gas"
             },
             cronograma: [
                 { fecha: "2026-09-30", renta: 3.5, amort: 0.0, vr: 100.0 },
@@ -2061,7 +2564,8 @@
                 monedaPago: "USD Cable",
                 frecuenciaPago: "Semestral (Junio / Diciembre)",
                 amortizacion: "3 cuotas: 33% (Dic-33), 33% (Dic-34) y 34% (Dic-35)",
-                calificacion: "S/D"
+                calificacion: "AAA.ar",
+                industria: "Oil&Gas"
             },
             cronograma: [
                 { fecha: "2026-12-10", renta: 3.8125, amort: 0.0, vr: 100.0 },
@@ -2083,6 +2587,112 @@
                 { fecha: "2034-12-10", renta: 2.554375, amort: 33.00, vr: 34.00 },
                 { fecha: "2035-06-10", renta: 1.29625, amort: 0.0, vr: 34.00 },
                 { fecha: "2035-12-10", renta: 1.29625, amort: 34.00, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "CP38O",
+            emisor: "Compañía General de Combustibles S.A. Cl. 38",
+            vencimiento: "2030-11-28",
+            ultCupon: "2026-05-28",
+            cuponAnual: 11.875,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 100,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "28/11/2025",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Mayo / Noviembre)",
+                amortizacion: "Íntegra al vencimiento (bullet)",
+                calificacion: "AA-.ar",
+                industria: "Oil&Gas"
+            },
+            cronograma: [
+                { fecha: "2026-11-28", renta: 5.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-05-28", renta: 5.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-11-28", renta: 5.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-05-28", renta: 5.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-11-28", renta: 5.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-05-28", renta: 5.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-11-28", renta: 5.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-05-28", renta: 5.9375, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-11-28", renta: 5.9375, amort: 100.0, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "TSC4O",
+            emisor: "Transportadora de Gas del Sur S.A. Cl. 4",
+            vencimiento: "2035-11-20",
+            ultCupon: "2026-05-20",
+            cuponAnual: 7.75,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "20/11/2025",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Mayo / Noviembre)",
+                amortizacion: "Íntegra al vencimiento (bullet)",
+                calificacion: "B-.int",
+                industria: "Pipelines"
+            },
+            cronograma: [
+                { fecha: "2026-11-20", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-05-20", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-11-20", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-05-20", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-11-20", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-05-20", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-11-20", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-05-20", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-11-20", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-05-20", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2031-11-20", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-05-20", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2032-11-20", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-05-20", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2033-11-20", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2034-05-20", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2034-11-20", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2035-05-20", renta: 3.875, amort: 0.0, vr: 100.0 },
+                { fecha: "2035-11-20", renta: 3.875, amort: 100.0, vr: 0.0 }
+            ]
+        },
+        {
+            ticker: "TTCDO",
+            emisor: "Tecpetrol S.A. Cl. 12",
+            vencimiento: "2030-11-03",
+            ultCupon: "2026-05-03",
+            cuponAnual: 7.625,
+            frecuencia: 2,
+            valorResidual: 100.0,
+            precioUsdInicial: 100.00,
+            precioArsInicial: 150000.00,
+            laminaMinima: 1000,
+            fichaTecnica: {
+                ley: "Nueva York (EE.UU.)",
+                emision: "03/11/2025",
+                monedaPago: "USD Cable",
+                frecuenciaPago: "Semestral (Mayo / Noviembre)",
+                amortizacion: "Íntegra al vencimiento (bullet)",
+                calificacion: "AAA.ar",
+                industria: "Oil&Gas"
+            },
+            cronograma: [
+                { fecha: "2026-11-03", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-05-03", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2027-11-03", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-05-03", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2028-11-03", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-05-03", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2029-11-03", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-05-03", renta: 3.8125, amort: 0.0, vr: 100.0 },
+                { fecha: "2030-11-03", renta: 3.8125, amort: 100.0, vr: 0.0 }
             ]
         }
     ];
@@ -2204,6 +2814,934 @@
         }
     }
 
+    function tipoAmortizacionON(on) {
+        const pagosConAmort = on.cronograma.filter(c => c.amort > 0.0001);
+        return pagosConAmort.length <= 1 ? 'Bullet' : 'Amortizable';
+    }
+
+    const NOMBRES_MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+    const ORDEN_CALIFICACION = [
+        'AAA.ar', 'AA+.ar', 'AA.ar', 'AA-.ar', 'A+.ar', 'A.ar', 'A-.ar',
+        'BBB+.ar', 'BBB.ar', 'BBB-.ar', 'BB+.ar', 'BB.ar', 'BB-.ar',
+        'B+.ar', 'B.ar', 'B-.ar', 'CCC.ar', 'CC.ar', 'C.ar', 'D.ar',
+        'AAA.int', 'AA+.int', 'AA.int', 'AA-.int', 'A+.int', 'A.int', 'A-.int',
+        'BBB+.int', 'BBB.int', 'BBB-.int', 'BB+.int', 'BB.int', 'BB-.int',
+        'B+.int', 'B.int', 'B-.int', 'CCC.int', 'CC.int', 'C.int', 'D.int'
+    ];
+
+    function calificacionOrden(cal) {
+        const idx = ORDEN_CALIFICACION.indexOf(cal);
+        return idx === -1 ? 999 : idx;
+    }
+
+    function toggleCalendario() {
+        const cont = document.getElementById('calendarioContainer');
+        const mostrar = cont.style.display === 'none' || cont.style.display === '';
+        cont.style.display = mostrar ? 'block' : 'none';
+        if (mostrar && document.getElementById('mesesGrid').children.length === 0) {
+            poblarMesesGrid();
+            poblarCalificacionesGrid();
+        }
+    }
+
+    function poblarMesesGrid() {
+        const grid = document.getElementById('mesesGrid');
+        grid.innerHTML = NOMBRES_MESES.map((nombre, i) => `
+            <label class="mes-check">
+                <input type="checkbox" class="chk-mes" value="${i}">
+                ${nombre}
+            </label>
+        `).join('');
+    }
+
+    function poblarCalificacionesGrid() {
+        const distintas = Array.from(new Set(ONS_BASE.map(on => on.fichaTecnica.calificacion)))
+            .sort((a, b) => calificacionOrden(a) - calificacionOrden(b));
+
+        const grid = document.getElementById('calificacionesGrid');
+        grid.innerHTML = distintas.map(cal => `
+            <label class="mes-check">
+                <input type="checkbox" class="chk-calificacion" value="${cal}" checked>
+                ${cal}
+            </label>
+        `).join('');
+    }
+
+    function marcarTodosMeses(valor) {
+        document.querySelectorAll('.chk-mes').forEach(chk => { chk.checked = valor; });
+    }
+
+    function marcarTodasCalificaciones(valor) {
+        document.querySelectorAll('.chk-calificacion').forEach(chk => { chk.checked = valor; });
+    }
+
+    function mesesDePago(on) {
+        const meses = new Set();
+        on.cronograma.forEach(item => {
+            const d = new Date(item.fecha + 'T00:00:00');
+            meses.add(d.getMonth());
+        });
+        return meses;
+    }
+
+    function obtenerTirActual(index) {
+        const tr = document.querySelector(`#tablaCuerpo tr[data-index="${index}"]`);
+        return tr ? (parseFloat(tr.dataset.tir) || 0) : 0;
+    }
+
+    function obtenerPrecioUsdActualDeFila(index) {
+        const tr = document.querySelector(`#tablaCuerpo tr[data-index="${index}"]`);
+        return tr ? (parseFloat(tr.dataset.precioUsd) || 0) : 0;
+    }
+
+    let candidatosPorMes = {};
+    let estadoOrdenCandidatos = {};
+
+    function generarCarteraSugerida() {
+        const mesesSeleccionados = Array.from(document.querySelectorAll('.chk-mes:checked'))
+            .map(chk => parseInt(chk.value))
+            .sort((a, b) => a - b);
+
+        const calificacionesSeleccionadas = new Set(
+            Array.from(document.querySelectorAll('.chk-calificacion:checked')).map(chk => chk.value)
+        );
+
+        const anioMax = document.getElementById('filtroVencimientoMax').value;
+        const vencMax = anioMax ? `${anioMax}-12-31` : '';
+
+        const resultadoDiv = document.getElementById('resultadoCalendario');
+        document.getElementById('resumenFinalBox').style.display = 'none';
+        document.getElementById('botonResumenFinalWrap').style.display = 'none';
+
+        candidatosPorMes = {};
+        estadoOrdenCandidatos = {};
+
+        if (mesesSeleccionados.length === 0) {
+            resultadoDiv.innerHTML = '<p class="sin-datos">Elegí al menos un mes para empezar.</p>';
+            return;
+        }
+
+        let html = '';
+        let huboCandidatos = false;
+
+        mesesSeleccionados.forEach(mes => {
+            const candidatos = ONS_BASE
+                .map((on, index) => ({ on, index }))
+                .filter(({ on }) =>
+                    mesesDePago(on).has(mes) &&
+                    calificacionesSeleccionadas.has(on.fichaTecnica.calificacion) &&
+                    (!vencMax || on.vencimiento <= vencMax)
+                )
+                .map(({ on, index }) => ({ on, index, tir: obtenerTirActual(index) }))
+                .sort((a, b) => {
+                    const diff = calificacionOrden(a.on.fichaTecnica.calificacion) - calificacionOrden(b.on.fichaTecnica.calificacion);
+                    return diff !== 0 ? diff : b.tir - a.tir;
+                });
+
+            if (candidatos.length === 0) {
+                html += `<div class="mes-bloque"><h4>${NOMBRES_MESES[mes]}</h4><p class="sin-datos">No hay ONs que paguen cupón este mes con los filtros elegidos.</p></div>`;
+                return;
+            }
+
+            huboCandidatos = true;
+            candidatosPorMes[mes] = candidatos;
+
+            html += `<div class="mes-bloque">
+                <h4>${NOMBRES_MESES[mes]}</h4>
+                <div class="tabla-scroll-wrap">
+                <table class="tabla-mes tabla-candidatos">
+                    <thead><tr>
+                        <th></th>
+                        <th>Incluir</th>
+                        <th>Ticker</th>
+                        <th style="text-align:left;">Emisor</th>
+                        <th>Calificación</th>
+                        <th>Amortización</th>
+                        <th id="thVencMes-${mes}" onclick="ordenarCandidatosPorMes(${mes}, 'vencimiento')" style="cursor:pointer; user-select:none;">Año Venc. <span id="flechaVencMes-${mes}" class="flecha-orden">⇅</span></th>
+                        <th>Industria</th>
+                        <th id="thTirMes-${mes}" onclick="ordenarCandidatosPorMes(${mes}, 'tir')" style="cursor:pointer; user-select:none;">TIR Efectiva <span id="flechaTirMes-${mes}" class="flecha-orden">⇅</span></th>
+                    </tr></thead>
+                    <tbody id="tbodyCandidatosMes-${mes}"></tbody>
+                </table>
+                </div>
+            </div>`;
+        });
+
+        resultadoDiv.innerHTML = html;
+
+        mesesSeleccionados.forEach(mes => {
+            if (candidatosPorMes[mes]) renderTablaCandidatosMes(mes);
+        });
+
+        if (huboCandidatos) {
+            document.getElementById('botonResumenFinalWrap').style.display = 'flex';
+            // reviso las que ya quedaron tildadas por defecto (⭐), por si también pagan en otro mes elegido
+            Array.from(document.querySelectorAll('.chk-incluir-sugerido:checked')).forEach(chk => {
+                verificarCoberturaCruzada(parseInt(chk.dataset.index), parseInt(chk.dataset.mes));
+            });
+        }
+    }
+
+    function renderTablaCandidatosMes(mes) {
+        const tbody = document.getElementById(`tbodyCandidatosMes-${mes}`);
+        const candidatos = candidatosPorMes[mes];
+        if (!tbody || !candidatos) return;
+
+        const marcados = new Set(
+            Array.from(tbody.querySelectorAll('.chk-incluir-sugerido:checked')).map(chk => chk.dataset.index)
+        );
+
+        tbody.innerHTML = candidatos.map((c, i) => `
+            <tr>
+                <td>${marcados.size === 0 && i === 0 ? '⭐' : ''}</td>
+                <td><input type="checkbox" class="chk-incluir-sugerido" data-index="${c.index}" data-mes="${mes}" onchange="onCambioSugerido(this)" ${marcados.has(String(c.index)) ? 'checked' : ''}></td>
+                <td>${c.on.ticker}</td>
+                <td style="text-align:left;">${c.on.emisor}</td>
+                <td>${c.on.fichaTecnica.calificacion}</td>
+                <td>${tipoAmortizacionON(c.on)}</td>
+                <td>${c.on.vencimiento.slice(0, 4)}</td>
+                <td>${c.on.fichaTecnica.industria}</td>
+                <td>${c.tir.toFixed(2)}%</td>
+            </tr>
+        `).join('');
+    }
+
+    function ordenarCandidatosPorMes(mes, campo) {
+        const candidatos = candidatosPorMes[mes];
+        if (!candidatos) return;
+
+        const estadoPrevio = estadoOrdenCandidatos[mes];
+        const dir = (estadoPrevio && estadoPrevio.campo === campo) ? -estadoPrevio.dir : 1;
+        estadoOrdenCandidatos[mes] = { campo, dir };
+
+        candidatos.sort((a, b) => {
+            let va, vb;
+            if (campo === 'vencimiento') {
+                va = a.on.vencimiento;
+                vb = b.on.vencimiento;
+            } else {
+                va = a.tir;
+                vb = b.tir;
+            }
+            if (va < vb) return -1 * dir;
+            if (va > vb) return 1 * dir;
+            return 0;
+        });
+
+        renderTablaCandidatosMes(mes);
+
+        const flechaVenc = document.getElementById(`flechaVencMes-${mes}`);
+        const flechaTir = document.getElementById(`flechaTirMes-${mes}`);
+        if (flechaVenc) flechaVenc.textContent = campo === 'vencimiento' ? (dir === 1 ? '▲' : '▼') : '⇅';
+        if (flechaTir) flechaTir.textContent = campo === 'tir' ? (dir === 1 ? '▲' : '▼') : '⇅';
+    }
+
+
+    function verificarCoberturaCruzada(idx, mesActual) {
+        const on = ONS_BASE[idx];
+        const mesesQuePaga = mesesDePago(on);
+        const mesesSeleccionados = Array.from(document.querySelectorAll('.chk-mes:checked')).map(c => parseInt(c.value));
+
+        mesesSeleccionados.forEach(mes => {
+            if (mes === mesActual || !mesesQuePaga.has(mes)) return;
+            const otroChk = document.querySelector(`.chk-incluir-sugerido[data-index="${idx}"][data-mes="${mes}"]`);
+            if (otroChk && !otroChk.checked) {
+                const confirmar = confirm(`${on.ticker} también paga cupón en ${NOMBRES_MESES[mes]}. ¿Querés sumarla también a ese mes?`);
+                if (confirmar) otroChk.checked = true;
+            }
+        });
+    }
+
+    function onCambioSugerido(checkbox) {
+        if (checkbox.checked) {
+            verificarCoberturaCruzada(parseInt(checkbox.dataset.index), parseInt(checkbox.dataset.mes));
+        }
+    }
+
+    function armarResumenFinal() {
+        const checks = Array.from(document.querySelectorAll('.chk-incluir-sugerido:checked'));
+        if (checks.length === 0) {
+            alert('No seleccionaste ninguna ON todavía.');
+            return;
+        }
+
+        const mesesPorIndice = {};
+        checks.forEach(chk => {
+            const idx = parseInt(chk.dataset.index);
+            const mes = parseInt(chk.dataset.mes);
+            if (!mesesPorIndice[idx]) mesesPorIndice[idx] = new Set();
+            mesesPorIndice[idx].add(mes);
+        });
+
+        const indices = Object.keys(mesesPorIndice).map(Number);
+        const tbody = document.getElementById('tablaResumenFinalBody');
+
+        tbody.innerHTML = indices.map(idx => {
+            const on = ONS_BASE[idx];
+            const mesesTxt = Array.from(mesesPorIndice[idx]).sort((a, b) => a - b).map(m => NOMBRES_MESES[m].slice(0, 3)).join(', ');
+            const precioUsdActual = obtenerPrecioUsdActualDeFila(idx);
+            return `<tr data-idx-final="${idx}">
+                <td>${on.ticker}</td>
+                <td style="text-align:left;">${on.emisor}</td>
+                <td>${on.fichaTecnica.calificacion}</td>
+                <td>${on.fichaTecnica.industria}</td>
+                <td>${mesesTxt}</td>
+                <td><input type="text" inputmode="decimal" id="precioFinal-${idx}" class="editable-input" value="${precioUsdActual.toFixed(2)}" onfocus="this.select()" onkeydown="manejarEnterPrecioFinal(event, ${idx})" oninput="actualizarPrecioDesdeResumen(${idx})" onblur="normalizarPrecioInput(this)"></td>
+                <td id="tirFinal-${idx}">${obtenerTirActual(idx).toFixed(2)}%</td>
+                <td><input type="number" id="nominalFinal-${idx}" value="${on.laminaMinima}" min="${on.laminaMinima}" step="${on.laminaMinima}" style="width:100px;" onchange="ajustarNominalFinal(${idx})" oninput="recalcularResumenFinal()"></td>
+                <td>${on.laminaMinima.toLocaleString('es-AR')} VN</td>
+                <td id="valorizadoFinal-${idx}">USD 0.00</td>
+            </tr>`;
+        }).join('');
+
+        document.getElementById('resumenFinalBox').style.display = 'block';
+        recalcularResumenFinal();
+    }
+
+    function ajustarNominalFinal(idx) {
+        const on = ONS_BASE[idx];
+        const input = document.getElementById(`nominalFinal-${idx}`);
+        let valor = parseFloat(input.value) || on.laminaMinima;
+        if (valor < on.laminaMinima) {
+            valor = on.laminaMinima;
+        } else {
+            valor = Math.round(valor / on.laminaMinima) * on.laminaMinima;
+        }
+        input.value = valor;
+        recalcularResumenFinal();
+    }
+
+    let flujoEventosGlobal = [];
+
+    function generarFlujoProyectado() {
+        const filas = document.querySelectorAll('#tablaResumenFinalBody tr');
+        if (filas.length === 0) {
+            alert('Primero armá el resumen final con al menos una ON.');
+            return;
+        }
+
+        const fechaLiq = new Date(hoyInput.value + 'T00:00:00');
+        const eventos = [];
+
+        filas.forEach(tr => {
+            const idx = parseInt(tr.dataset.idxFinal);
+            const on = ONS_BASE[idx];
+            const nominalInput = document.getElementById(`nominalFinal-${idx}`);
+            const nominal = parseFloat(nominalInput.value) || 0;
+            const factor = nominal / 100;
+
+            const flujos = obtenerFlujos(on, fechaLiq);
+            flujos.forEach(f => {
+                eventos.push({
+                    fecha: f.fechaStr,
+                    anio: f.fechaStr.slice(0, 4),
+                    ticker: on.ticker,
+                    renta: f.interes * factor,
+                    amort: f.amort * factor,
+                    total: f.montoTotal * factor
+                });
+            });
+        });
+
+        eventos.sort((a, b) => a.fecha.localeCompare(b.fecha));
+        flujoEventosGlobal = eventos;
+
+        renderFlujoAnioTabs();
+
+        const box = document.getElementById('flujoProyectadoBox');
+        box.style.display = 'block';
+        box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        renderGraficoFlujo();
+    }
+
+    function renderFlujoAnioTabs() {
+        const tabsCont = document.getElementById('flujoAnioTabs');
+
+        if (flujoEventosGlobal.length === 0) {
+            tabsCont.innerHTML = '';
+            document.getElementById('tablaFlujoProyectadoBody').innerHTML = '';
+            return;
+        }
+
+        const anios = Array.from(new Set(flujoEventosGlobal.map(e => e.anio))).sort();
+
+        tabsCont.innerHTML = anios.map((a, i) => `
+            <button type="button" class="btn-anio-flujo${i === 0 ? ' activo' : ''}" data-anio="${a}" onclick="seleccionarAnioFlujo('${a}', this)">${a}</button>
+        `).join('');
+
+        pintarFlujoAnio(anios[0]);
+    }
+
+    function seleccionarAnioFlujo(anio, btn) {
+        document.querySelectorAll('.btn-anio-flujo').forEach(b => b.classList.remove('activo'));
+        btn.classList.add('activo');
+        pintarFlujoAnio(anio);
+    }
+
+    function pintarFlujoAnio(anio) {
+        const eventosAnio = flujoEventosGlobal.filter(e => e.anio === anio);
+
+        let acumulado = 0;
+        let totalRenta = 0, totalAmort = 0, totalGeneral = 0;
+
+        const filasHtml = eventosAnio.map(e => {
+            acumulado += e.total;
+            totalRenta += e.renta;
+            totalAmort += e.amort;
+            totalGeneral += e.total;
+            return `<tr>
+                <td>${formatearFechaAR(e.fecha)}</td>
+                <td>${e.ticker}</td>
+                <td>USD ${e.renta.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                <td>USD ${e.amort.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                <td style="font-weight:bold;">USD ${e.total.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                <td>USD ${acumulado.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+            </tr>`;
+        }).join('');
+
+        const filaTotal = `<tr style="background:#f1f5f9; font-weight:bold;">
+            <td colspan="2" style="text-align:right;">Total ${anio}:</td>
+            <td>USD ${totalRenta.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+            <td>USD ${totalAmort.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+            <td>USD ${totalGeneral.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+            <td></td>
+        </tr>`;
+
+        document.getElementById('tablaFlujoProyectadoBody').innerHTML = filasHtml + filaTotal;
+    }
+
+    function renderGraficoFlujo() {
+        const cont = document.getElementById('chartPagosDolares');
+        if (!cont) return;
+
+        if (flujoEventosGlobal.length === 0) {
+            cont.innerHTML = '';
+            return;
+        }
+
+        const datos = flujoEventosGlobal;
+        const maxValor = Math.max(...datos.map(e => e.total));
+
+        const anchoTotal = 1000;
+        const altoTotal = 320;
+        const margenIzq = 65;
+        const margenDer = 15;
+        const margenSup = 15;
+        const margenInf = 34;
+        const anchoGraf = anchoTotal - margenIzq - margenDer;
+        const altoGraf = altoTotal - margenSup - margenInf;
+
+        const n = datos.length;
+        const paso = anchoGraf / n;
+        const anchoBarra = Math.max(2, paso * 0.62);
+
+        const maxEscala = Math.ceil((maxValor || 1) / 200) * 200 || 200;
+        const pasosY = 5;
+
+        let svg = `<svg viewBox="0 0 ${anchoTotal} ${altoTotal}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; font-family: 'Segoe UI', Arial, sans-serif;">`;
+
+        // Grilla y etiquetas del eje Y
+        for (let i = 0; i <= pasosY; i++) {
+            const valor = (maxEscala / pasosY) * i;
+            const y = margenSup + altoGraf - (valor / maxEscala) * altoGraf;
+            svg += `<line x1="${margenIzq}" y1="${y.toFixed(1)}" x2="${anchoTotal - margenDer}" y2="${y.toFixed(1)}" stroke="#e2e8f0" stroke-width="1"/>`;
+            svg += `<text x="${margenIzq - 8}" y="${(y + 4).toFixed(1)}" text-anchor="end" font-size="11" fill="#64748b">${Math.round(valor).toLocaleString('es-AR')}</text>`;
+        }
+
+        // Título eje Y
+        svg += `<text x="14" y="${(margenSup + altoGraf / 2).toFixed(1)}" text-anchor="middle" font-size="11" font-weight="bold" fill="#334155" transform="rotate(-90 14 ${(margenSup + altoGraf / 2).toFixed(1)})">Dólares</text>`;
+
+        // Barras + etiquetas de año
+        let anioAnterior = null;
+        datos.forEach((e, i) => {
+            const x = margenIzq + i * paso + (paso - anchoBarra) / 2;
+            const alturaBarra = (e.total / maxEscala) * altoGraf;
+            const y = margenSup + altoGraf - alturaBarra;
+            const fechaFmt = formatearFechaAR(e.fecha);
+            const montoFmt = e.total.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+            svg += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${anchoBarra.toFixed(1)}" height="${Math.max(alturaBarra, 0.5).toFixed(1)}" fill="rgba(74,222,128,0.55)" stroke="rgba(22,163,74,0.9)" stroke-width="1"><title>${fechaFmt} — ${e.ticker}: USD ${montoFmt}</title></rect>`;
+
+            if (e.anio !== anioAnterior) {
+                const xLabel = margenIzq + i * paso + paso / 2;
+                svg += `<line x1="${xLabel.toFixed(1)}" y1="${margenSup}" x2="${xLabel.toFixed(1)}" y2="${margenSup + altoGraf}" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2,2"/>`;
+                svg += `<text x="${xLabel.toFixed(1)}" y="${altoTotal - 10}" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e293b">${e.anio}</text>`;
+                anioAnterior = e.anio;
+            }
+        });
+
+        // Eje X base
+        svg += `<line x1="${margenIzq}" y1="${(margenSup + altoGraf).toFixed(1)}" x2="${anchoTotal - margenDer}" y2="${(margenSup + altoGraf).toFixed(1)}" stroke="#94a3b8" stroke-width="1"/>`;
+
+        svg += `</svg>`;
+
+        cont.innerHTML = svg;
+    }
+
+    function descargarTablaComoImagen() {
+        const headerCells = Array.from(document.querySelectorAll('.table-container table thead th'));
+        const filasEl = Array.from(document.querySelectorAll('#tablaCuerpo tr'));
+
+        if (headerCells.length === 0 || filasEl.length === 0) {
+            alert('No hay datos en la tabla para descargar.');
+            return;
+        }
+
+        const indicesExcluir = [];
+        headerCells.forEach((th, i) => {
+            const texto = th.textContent.replace('⇅', '').trim();
+            if (th.style.display === 'none' || texto === 'Cash Flow') {
+                indicesExcluir.push(i);
+            }
+        });
+
+        const keepIdx = headerCells.map((_, i) => i).filter(i => !indicesExcluir.includes(i));
+        const encabezados = keepIdx.map(i => headerCells[i].textContent.replace('⇅', '').trim());
+
+        const filasDatos = filasEl.map(tr => {
+            const celdas = Array.from(tr.children);
+            return keepIdx.map(i => {
+                const td = celdas[i];
+                if (!td) return '';
+                const input = td.querySelector('input');
+                if (input) return input.value;
+                return td.textContent.trim();
+            });
+        });
+
+        const escala = 2;
+        const padding = 10;
+        const altoFila = 26;
+        const altoHeader = 32;
+        const altoTitulo = 40;
+
+        const ctxTmp = document.createElement('canvas').getContext('2d');
+
+        const anchosCol = encabezados.map((h, i) => {
+            ctxTmp.font = 'bold 12px Segoe UI, Arial, sans-serif';
+            let maxAncho = ctxTmp.measureText(h).width;
+            ctxTmp.font = '12px Segoe UI, Arial, sans-serif';
+            filasDatos.forEach(fila => {
+                const w = ctxTmp.measureText(fila[i] || '').width;
+                if (w > maxAncho) maxAncho = w;
+            });
+            return Math.ceil(maxAncho) + padding * 2;
+        });
+
+        const anchoTotal = anchosCol.reduce((a, b) => a + b, 0);
+        const altoTotal = altoTitulo + altoHeader + filasDatos.length * altoFila + 20;
+
+        const canvas = document.createElement('canvas');
+        canvas.width = anchoTotal * escala;
+        canvas.height = altoTotal * escala;
+        const ctx = canvas.getContext('2d');
+        ctx.scale(escala, escala);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, anchoTotal, altoTotal);
+
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#1a365d';
+        ctx.font = 'bold 16px Segoe UI, Arial, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('Calculadora de ONs USD Ley NY — Carlos Sauza', padding, altoTitulo / 2 + 6);
+
+        let y = altoTitulo;
+
+        ctx.fillStyle = '#1a365d';
+        ctx.fillRect(0, y, anchoTotal, altoHeader);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 12px Segoe UI, Arial, sans-serif';
+        let x = 0;
+        encabezados.forEach((h, i) => {
+            ctx.textAlign = 'center';
+            ctx.fillText(h, x + anchosCol[i] / 2, y + altoHeader / 2);
+            x += anchosCol[i];
+        });
+        y += altoHeader;
+
+        ctx.font = '12px Segoe UI, Arial, sans-serif';
+        filasDatos.forEach((fila, filaIdx) => {
+            ctx.fillStyle = filaIdx % 2 === 0 ? '#ffffff' : '#f8fafc';
+            ctx.fillRect(0, y, anchoTotal, altoFila);
+
+            ctx.fillStyle = '#1e293b';
+            let x2 = 0;
+            fila.forEach((valor, i) => {
+                ctx.textAlign = 'center';
+                ctx.fillText(valor, x2 + anchosCol[i] / 2, y + altoFila / 2);
+                x2 += anchosCol[i];
+            });
+
+            ctx.strokeStyle = '#f1f5f9';
+            ctx.beginPath();
+            ctx.moveTo(0, y + altoFila);
+            ctx.lineTo(anchoTotal, y + altoFila);
+            ctx.stroke();
+
+            y += altoFila;
+        });
+
+        canvas.toBlob(function (blob) {
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'tabla_ons.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }, 'image/png');
+    }
+
+    function descargarResumenComoImagen() {
+        const headerCells = Array.from(document.querySelectorAll('#tablaResumenFinal thead th'));
+        const filasEl = Array.from(document.querySelectorAll('#tablaResumenFinalBody tr'));
+
+        if (headerCells.length === 0 || filasEl.length === 0) {
+            alert('Primero armá el resumen final con al menos una ON.');
+            return;
+        }
+
+        const encabezados = headerCells.map(th => th.textContent.trim());
+        const filasDatos = filasEl.map(tr => {
+            return Array.from(tr.children).map(td => {
+                const input = td.querySelector('input');
+                if (input) return input.value;
+                return td.textContent.trim();
+            });
+        });
+
+        const escala = 2;
+        const padding = 10;
+        const altoFila = 26;
+        const altoHeader = 32;
+        const altoTitulo = 40;
+        const altoSubtitulo = 26;
+        const espacioSeccion = 26;
+
+        const ctxTmp = document.createElement('canvas').getContext('2d');
+
+        // Anchos de columnas de la tabla
+        const anchosCol = encabezados.map((h, i) => {
+            ctxTmp.font = 'bold 12px Segoe UI, Arial, sans-serif';
+            let maxAncho = ctxTmp.measureText(h).width;
+            ctxTmp.font = '12px Segoe UI, Arial, sans-serif';
+            filasDatos.forEach(fila => {
+                const w = ctxTmp.measureText(fila[i] || '').width;
+                if (w > maxAncho) maxAncho = w;
+            });
+            return Math.ceil(maxAncho) + padding * 2;
+        });
+        const anchoTabla = anchosCol.reduce((a, b) => a + b, 0);
+        const altoTabla = altoHeader + filasDatos.length * altoFila;
+
+        // Medir ancho de leyendas de cada torta
+        function medirLeyenda(items, total) {
+            ctxTmp.font = '12px Segoe UI, Arial, sans-serif';
+            let maxAncho = 0;
+            items.forEach(item => {
+                const texto = `${item.label} (${(item.valor / total * 100).toFixed(1)}%)`;
+                const w = ctxTmp.measureText(texto).width;
+                if (w > maxAncho) maxAncho = w;
+            });
+            return maxAncho;
+        }
+
+        const totalON = resumenComposicionON.reduce((s, i) => s + i.valor, 0);
+        const totalIndustria = resumenComposicionIndustria.reduce((s, i) => s + i.valor, 0);
+
+        const rPie = 80;
+        const diametroPie = rPie * 2;
+
+        const anchoLeyendaON = totalON > 0 ? medirLeyenda(resumenComposicionON, totalON) + 24 : 0;
+        const anchoLeyendaInd = totalIndustria > 0 ? medirLeyenda(resumenComposicionIndustria, totalIndustria) + 24 : 0;
+
+        const anchoColON = padding * 2 + diametroPie + padding + anchoLeyendaON;
+        const anchoColInd = padding * 2 + diametroPie + padding + anchoLeyendaInd;
+
+        const altoColON = Math.max(diametroPie, resumenComposicionON.length * 18) + 20;
+        const altoColInd = Math.max(diametroPie, resumenComposicionIndustria.length * 18) + 20;
+        const altoSeccionTortas = (totalON > 0 || totalIndustria > 0) ? (altoSubtitulo + Math.max(altoColON, altoColInd)) : 0;
+
+        const anchoTotal = Math.max(
+            anchoTabla,
+            anchoColON + anchoColInd,
+            600
+        );
+
+        let altoTotal = altoTitulo + altoTabla + espacioSeccion;
+        if (totalON > 0 || totalIndustria > 0) altoTotal += altoSeccionTortas + espacioSeccion;
+        altoTotal += 70; // franja de estadísticas finales
+
+        const canvas = document.createElement('canvas');
+        canvas.width = anchoTotal * escala;
+        canvas.height = altoTotal * escala;
+        const ctx = canvas.getContext('2d');
+        ctx.scale(escala, escala);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, anchoTotal, altoTotal);
+
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#1a365d';
+        ctx.font = 'bold 16px Segoe UI, Arial, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('📦 Resumen Final de la Cartera', padding, altoTitulo / 2 + 6);
+
+        let y = altoTitulo;
+
+        // Tabla
+        ctx.fillStyle = '#1a365d';
+        ctx.fillRect(0, y, anchoTabla, altoHeader);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 12px Segoe UI, Arial, sans-serif';
+        let x = 0;
+        encabezados.forEach((h, i) => {
+            ctx.textAlign = 'center';
+            ctx.fillText(h, x + anchosCol[i] / 2, y + altoHeader / 2);
+            x += anchosCol[i];
+        });
+        y += altoHeader;
+
+        ctx.font = '12px Segoe UI, Arial, sans-serif';
+        filasDatos.forEach((fila, filaIdx) => {
+            ctx.fillStyle = filaIdx % 2 === 0 ? '#ffffff' : '#f8fafc';
+            ctx.fillRect(0, y, anchoTabla, altoFila);
+            ctx.fillStyle = '#1e293b';
+            let x2 = 0;
+            fila.forEach((valor, i) => {
+                ctx.textAlign = 'center';
+                ctx.fillText(valor, x2 + anchosCol[i] / 2, y + altoFila / 2);
+                x2 += anchosCol[i];
+            });
+            ctx.strokeStyle = '#f1f5f9';
+            ctx.beginPath();
+            ctx.moveTo(0, y + altoFila);
+            ctx.lineTo(anchoTabla, y + altoFila);
+            ctx.stroke();
+            y += altoFila;
+        });
+
+        y += espacioSeccion;
+
+        function dibujarSeccionTorta(titulo, items, total, xCol, anchoCol, altoSeccion) {
+            ctx.fillStyle = '#1a365d';
+            ctx.font = 'bold 13px Segoe UI, Arial, sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText(titulo, xCol + padding, y + altoSubtitulo / 2);
+
+            const cx = xCol + padding + rPie;
+            const cy = y + altoSubtitulo + altoSeccion / 2;
+            let anguloActual = -90;
+
+            items.forEach((item, i) => {
+                const pct = item.valor / total * 100;
+                const anguloBarrido = pct / 100 * 360;
+                const anguloFin = anguloActual + anguloBarrido;
+                const color = PALETA_TORTA[i % PALETA_TORTA.length];
+
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.arc(cx, cy, rPie, anguloActual * Math.PI / 180, anguloFin * Math.PI / 180);
+                ctx.closePath();
+                ctx.fillStyle = color;
+                ctx.fill();
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                anguloActual = anguloFin;
+            });
+
+            let ly = cy - (items.length * 18) / 2 + 9;
+            items.forEach((item, i) => {
+                const color = PALETA_TORTA[i % PALETA_TORTA.length];
+                const lx = xCol + padding + diametroPie + padding;
+                ctx.fillStyle = color;
+                ctx.fillRect(lx, ly - 6, 12, 12);
+                ctx.fillStyle = '#334155';
+                ctx.font = '12px Segoe UI, Arial, sans-serif';
+                ctx.textAlign = 'left';
+                const pct = item.valor / total * 100;
+                ctx.fillText(`${item.label} (${pct.toFixed(1)}%)`, lx + 18, ly);
+                ly += 18;
+            });
+        }
+
+        if (totalON > 0) {
+            dibujarSeccionTorta('🥧 Composición por ON', resumenComposicionON, totalON, 0, anchoColON, Math.max(altoColON, altoColInd));
+        }
+        if (totalIndustria > 0) {
+            dibujarSeccionTorta('🏭 Composición por Industria', resumenComposicionIndustria, totalIndustria, anchoColON, anchoColInd, Math.max(altoColON, altoColInd));
+        }
+
+        if (totalON > 0 || totalIndustria > 0) {
+            y += altoSeccionTortas + espacioSeccion;
+        }
+
+        // Estadísticas finales
+        const stats = [
+            ['Meses Cubiertos', document.getElementById('resFinalMeses').textContent.trim()],
+            ['Valorizado Total', document.getElementById('resFinalValorizado').textContent.trim()],
+            ['TIR Efectiva Prom. Ponderada', document.getElementById('resFinalTir').textContent.trim()]
+        ];
+        const anchoStat = anchoTotal / stats.length;
+        stats.forEach((s, i) => {
+            const cxStat = anchoStat * i + anchoStat / 2;
+            ctx.textAlign = 'center';
+            ctx.fillStyle = '#64748b';
+            ctx.font = '11px Segoe UI, Arial, sans-serif';
+            ctx.fillText(s[0], cxStat, y + 16);
+            ctx.fillStyle = '#1a365d';
+            ctx.font = 'bold 15px Segoe UI, Arial, sans-serif';
+            ctx.fillText(s[1], cxStat, y + 38);
+        });
+
+        canvas.toBlob(function (blob) {
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'resumen_cartera.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }, 'image/png');
+    }
+
+    function exportarFlujoExcel() {
+        if (flujoEventosGlobal.length === 0) {
+            alert('Primero generá el flujo proyectado.');
+            return;
+        }
+
+        const encabezados = ['Ticker', 'Fecha', 'Renta (USD)', 'Amortización (USD)', 'Total (USD)'];
+        const filas = flujoEventosGlobal.map(e => [
+            e.ticker,
+            formatearFechaAR(e.fecha),
+            e.renta.toFixed(2),
+            e.amort.toFixed(2),
+            e.total.toFixed(2)
+        ]);
+
+        let csv = '\uFEFF' + encabezados.join(';') + '\n';
+        csv += filas.map(f => f.join(';')).join('\n');
+
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'flujo_proyectado.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    let resumenComposicionON = [];
+    let resumenComposicionIndustria = [];
+
+    function recalcularResumenFinal() {
+        const filas = document.querySelectorAll('#tablaResumenFinalBody tr');
+        let valorizadoTotal = 0;
+        let sumaTirPonderada = 0;
+        const composicion = [];
+        const composicionIndustria = {};
+
+        filas.forEach(tr => {
+            const idx = parseInt(tr.dataset.idxFinal);
+            const on = ONS_BASE[idx];
+            const input = document.getElementById(`nominalFinal-${idx}`);
+            const nominal = parseFloat(input.value) || 0;
+            const precioUsd = obtenerPrecioUsdActualDeFila(idx);
+            const tir = obtenerTirActual(idx);
+            const valorizado = nominal * precioUsd / 100;
+
+            document.getElementById(`valorizadoFinal-${idx}`).innerText =
+                `USD ${valorizado.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            const celdaTir = document.getElementById(`tirFinal-${idx}`);
+            if (celdaTir) celdaTir.innerText = `${tir.toFixed(2)}%`;
+
+            valorizadoTotal += valorizado;
+            sumaTirPonderada += tir * valorizado;
+            composicion.push({ label: on.ticker, valor: valorizado });
+
+            const industria = on.fichaTecnica.industria || 'S/D';
+            composicionIndustria[industria] = (composicionIndustria[industria] || 0) + valorizado;
+        });
+
+        const mesesUnicos = new Set(Array.from(document.querySelectorAll('.chk-incluir-sugerido:checked')).map(c => c.dataset.mes));
+
+        document.getElementById('resFinalMeses').innerText = `${mesesUnicos.size} / 12`;
+        document.getElementById('resFinalValorizado').innerText =
+            `USD ${valorizadoTotal.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('resFinalTir').innerText =
+            valorizadoTotal > 0 ? `${(sumaTirPonderada / valorizadoTotal).toFixed(2)}%` : '0.00%';
+
+        dibujarTorta(composicion, 'tortaCarteraContainer');
+
+        const composicionIndustriaArr = Object.keys(composicionIndustria)
+            .map(nombre => ({ label: nombre, valor: composicionIndustria[nombre] }))
+            .sort((a, b) => b.valor - a.valor);
+        dibujarTorta(composicionIndustriaArr, 'tortaIndustriaContainer');
+
+        resumenComposicionON = composicion;
+        resumenComposicionIndustria = composicionIndustriaArr;
+    }
+
+    const PALETA_TORTA = ['#0f766e', '#b91c1c', '#1d4ed8', '#ca8a04', '#7c3aed', '#65a30d', '#c2410c', '#db2777', '#0891b2', '#4338ca', '#dc2626', '#16a34a', '#9333ea', '#ea580c', '#0d9488', '#475569'];
+
+    function dibujarTorta(items, contenedorId) {
+        const cont = document.getElementById(contenedorId);
+        const total = items.reduce((s, i) => s + i.valor, 0);
+
+        if (total <= 0) {
+            cont.innerHTML = '<p class="sin-datos">Cargá nominales mayores a 0 para ver la composición.</p>';
+            return;
+        }
+
+        const cx = 150, cy = 150, r = 140;
+        let anguloActual = -90;
+        let paths = '';
+        let etiquetas = '';
+
+        items.forEach((item, i) => {
+            const pct = item.valor / total * 100;
+            const anguloBarrido = pct / 100 * 360;
+            const anguloFin = anguloActual + anguloBarrido;
+            const x1 = cx + r * Math.cos(anguloActual * Math.PI / 180);
+            const y1 = cy + r * Math.sin(anguloActual * Math.PI / 180);
+            const x2 = cx + r * Math.cos(anguloFin * Math.PI / 180);
+            const y2 = cy + r * Math.sin(anguloFin * Math.PI / 180);
+            const grandeArco = anguloBarrido > 180 ? 1 : 0;
+            const color = PALETA_TORTA[i % PALETA_TORTA.length];
+
+            paths += `<path d="M${cx},${cy} L${x1.toFixed(2)},${y1.toFixed(2)} A${r},${r} 0 ${grandeArco} 1 ${x2.toFixed(2)},${y2.toFixed(2)} Z" fill="${color}" stroke="#fff" stroke-width="1"></path>`;
+
+            if (pct >= 4) {
+                const anguloMedio = (anguloActual + anguloFin) / 2;
+                const lx = cx + (r * 0.65) * Math.cos(anguloMedio * Math.PI / 180);
+                const ly = cy + (r * 0.65) * Math.sin(anguloMedio * Math.PI / 180);
+                etiquetas += `<text x="${lx.toFixed(2)}" y="${ly.toFixed(2)}" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle" dominant-baseline="middle">${pct.toFixed(0)}%</text>`;
+            }
+
+            anguloActual = anguloFin;
+        });
+
+        const leyenda = items.map((item, i) => `
+            <div style="display:flex; align-items:center; gap:6px; margin-bottom:5px; font-size:12px; color:#334155;">
+                <span style="width:12px; height:12px; background:${PALETA_TORTA[i % PALETA_TORTA.length]}; display:inline-block; border-radius:2px; flex-shrink:0;"></span>
+                <span>${item.label} (${(item.valor / total * 100).toFixed(1)}%)</span>
+            </div>
+        `).join('');
+
+        cont.innerHTML = `
+            <div style="display:flex; flex-wrap:wrap; gap:24px; align-items:center; justify-content:center; padding:10px 0;">
+                <svg viewBox="0 0 300 300" width="260" height="260">${paths}${etiquetas}</svg>
+                <div>${leyenda}</div>
+            </div>
+        `;
+    }
+
     function construirTabla() {
         const tbody = document.getElementById('tablaCuerpo');
         tbody.innerHTML = '';
@@ -2217,10 +3755,11 @@
                 <td style="text-align: left;">${on.emisor}</td>
                 <td>${formatearFechaAR(on.vencimiento)}</td>
                 <td>
-                    <input type="number" id="precio-${index}" class="editable-input" value="${on.precioUsdInicial.toFixed(2)}" step="0.05" oninput="actualizarFila(${index})">
+                    <input type="text" inputmode="decimal" id="precio-${index}" class="editable-input" value="${on.precioUsdInicial.toFixed(2)}" onfocus="this.select()" onkeydown="manejarEnterPrecio(event, ${index})" oninput="actualizarFila(${index})" onblur="normalizarPrecioInput(this)">
                     <span id="subPrecio-${index}" class="sub-val"></span>
                 </td>
-                <td id="clean-${index}">-</td>
+                <td>${on.cuponAnual.toFixed(3)}%</td>
+                <td id="clean-${index}" style="display:none;">-</td>
                 <td id="vt-${index}">-</td>
                 <td id="ic-${index}">-</td>
                 <td id="paridad-${index}">-</td>
@@ -2230,6 +3769,7 @@
                 <td id="duration-${index}">-</td>
                 <td id="proxCupon-${index}" style="font-weight: 600; color: #1e293b;">-</td>
                 <td style="font-weight: 600;">${on.laminaMinima.toLocaleString('es-AR')} VN</td>
+                <td style="font-weight: bold;">${on.fichaTecnica.calificacion}</td>
                 <td><button class="btn-detalle" onclick="verDetalle(${index})">Ver detalle</button></td>
             `;
             tbody.appendChild(tr);
@@ -2312,6 +3852,151 @@
         return van;
     }
 
+    function parsearNumeroFlexible(valor) {
+        if (typeof valor !== 'string') return parseFloat(valor);
+        return parseFloat(valor.trim().replace(',', '.'));
+    }
+
+    function normalizarPrecioInput(input) {
+        const valor = parsearNumeroFlexible(input.value);
+        if (!isNaN(valor) && valor > 0) {
+            input.value = valor.toFixed(2);
+        }
+    }
+
+    async function actualizarPreciosData912() {
+        const boton = document.getElementById('btnActualizarData912');
+        const textoOriginal = boton.innerHTML;
+        boton.disabled = true;
+        boton.innerHTML = '⏳ Actualizando...';
+
+        try {
+            const [respCorp, respCcl] = await Promise.all([
+                fetch('https://data912.com/live/arg_corp'),
+                fetch('https://data912.com/live/ccl')
+            ]);
+            if (!respCorp.ok) throw new Error('Respuesta no OK de data912 (arg_corp)');
+            if (!respCcl.ok) throw new Error('Respuesta no OK de data912 (ccl)');
+
+            const datosCorp = await respCorp.json();
+            const datosCcl = await respCcl.json();
+
+            function extraerPrecio(d) {
+                let precio = d.c;
+                if (!precio || precio <= 0) {
+                    if (d.px_bid > 0 && d.px_ask > 0) {
+                        precio = (d.px_bid + d.px_ask) / 2;
+                    } else if (d.px_bid > 0) {
+                        precio = d.px_bid;
+                    } else if (d.px_ask > 0) {
+                        precio = d.px_ask;
+                    }
+                }
+                return precio;
+            }
+
+            let ccl = null;
+            if (Array.isArray(datosCcl) && datosCcl.length > 0) {
+                ccl = extraerPrecio(datosCcl[0]);
+            }
+            if (!ccl || ccl <= 0) throw new Error('No se pudo obtener el CCL en vivo de data912.');
+
+            const mapaPrecios = {};
+            datosCorp.forEach(d => {
+                const symbol = (d.symbol || '').toUpperCase().trim();
+                if (!symbol) return;
+                const precio = extraerPrecio(d);
+                if (precio > 0) mapaPrecios[symbol] = precio;
+            });
+
+            // Actualizo el campo de Tipo de Cambio con el CCL recién obtenido, para que quede consistente en el resto de la calculadora
+            document.getElementById('tipoCambio').value = ccl.toFixed(2);
+
+            const moneda = document.getElementById('monedaEntrada').value;
+
+            let actualizados = 0;
+            let usadosCable = [];
+            let usadosMep = [];
+            let convertidosPorCcl = [];
+            let noEncontrados = [];
+
+            document.querySelectorAll('#tablaCuerpo tr').forEach(tr => {
+                const idx = parseInt(tr.dataset.index);
+                const on = ONS_BASE[idx];
+                if (!on) return;
+
+                const tickerBase = on.ticker.toUpperCase().trim();
+                const raiz = tickerBase.endsWith('O') ? tickerBase.slice(0, -1) : tickerBase;
+                let precioUsd = null;
+
+                // 1) Ticker "C" (Cable): liquida directo en USD, es el precio de referencia más limpio
+                if (mapaPrecios[raiz + 'C'] !== undefined) {
+                    precioUsd = mapaPrecios[raiz + 'C'];
+                    usadosCable.push(on.ticker);
+                }
+                // 2) Ticker "D" (MEP): también liquida en USD, si no hay Cable disponible
+                else if (mapaPrecios[raiz + 'D'] !== undefined) {
+                    precioUsd = mapaPrecios[raiz + 'D'];
+                    usadosMep.push(on.ticker);
+                }
+                // 3) Ticker "O" (pesos): último recurso, convierto con el CCL
+                else if (mapaPrecios[tickerBase] !== undefined) {
+                    precioUsd = mapaPrecios[tickerBase] / ccl;
+                    convertidosPorCcl.push(on.ticker);
+                }
+
+                if (precioUsd === null) {
+                    noEncontrados.push(on.ticker);
+                    return;
+                }
+
+                const inputPrecio = document.getElementById(`precio-${idx}`);
+                if (!inputPrecio) return;
+                inputPrecio.value = moneda === 'ARS' ? (precioUsd * ccl).toFixed(2) : precioUsd.toFixed(2);
+                actualizarFila(idx);
+                actualizados++;
+            });
+
+            let msg = `✅ Se actualizaron ${actualizados} de ${document.querySelectorAll('#tablaCuerpo tr').length} ONs con precios de data912.`;
+            msg += `\n\n💵 Cable (USD directo): ${usadosCable.length}`;
+            msg += `\n💵 MEP (USD directo): ${usadosMep.length}`;
+            if (convertidosPorCcl.length > 0) {
+                msg += `\n\n⚠️ Sin ticker en dólares (se convirtió desde pesos con CCL $${ccl.toFixed(2)}): ${convertidosPorCcl.join(', ')}`;
+            }
+            if (noEncontrados.length > 0) {
+                msg += `\n\nNo se encontró cotización para: ${noEncontrados.join(', ')}`;
+            }
+            alert(msg);
+        } catch (err) {
+            alert('No se pudo conectar con data912. Probá de nuevo en unos segundos.\n\n' + err.message);
+        } finally {
+            boton.disabled = false;
+            boton.innerHTML = textoOriginal;
+        }
+    }
+
+    function manejarEnterPrecio(event, index) {
+        if (event.key !== 'Enter') return;
+        event.preventDefault();
+
+        const inputActual = event.target;
+        normalizarPrecioInput(inputActual);
+
+        const filaActual = inputActual.closest('tr');
+        if (!filaActual) return;
+
+        let filaSiguiente = filaActual.nextElementSibling;
+        while (filaSiguiente) {
+            const inputSiguiente = filaSiguiente.querySelector('input[id^="precio-"]');
+            if (inputSiguiente) {
+                inputSiguiente.focus();
+                inputSiguiente.select();
+                return;
+            }
+            filaSiguiente = filaSiguiente.nextElementSibling;
+        }
+    }
+
     function actualizarFila(index) {
         const on = ONS_BASE[index];
         const fechaLiq = new Date(hoyInput.value + 'T00:00:00');
@@ -2321,7 +4006,7 @@
         const tc = parseFloat(document.getElementById('tipoCambio').value) || 1500;
 
         const precioInput = document.getElementById(`precio-${index}`);
-        const precioIngresado = parseFloat(precioInput.value);
+        const precioIngresado = parsearNumeroFlexible(precioInput.value);
 
         if (isNaN(precioIngresado) || precioIngresado <= 0) return;
 
@@ -2361,8 +4046,67 @@
         document.getElementById(`tirEfectiva-${index}`).innerText = `${m.tirEfectiva.toFixed(2)}%`;
         document.getElementById(`duration-${index}`).innerText = m.modDuration.toFixed(2);
 
+        const tr = document.querySelector(`#tablaCuerpo tr[data-index="${index}"]`);
+        if (tr) {
+            tr.dataset.tir = m.tirEfectiva;
+            tr.dataset.paridad = m.paridad;
+            tr.dataset.duration = m.modDuration;
+            tr.dataset.precioUsd = precioDirtyUsd;
+            tr.style.display = filaCumpleFiltros(tr) ? '' : 'none';
+        }
+
+        const precioFinalInput = document.getElementById(`precioFinal-${index}`);
+        if (precioFinalInput && document.activeElement !== precioFinalInput) {
+            precioFinalInput.value = precioDirtyUsd.toFixed(2);
+        }
+        if (document.querySelector(`#tablaResumenFinalBody tr[data-idx-final="${index}"]`) &&
+            document.getElementById('resumenFinalBox').style.display !== 'none') {
+            recalcularResumenFinal();
+        }
+
         if (indiceOnActual === index && document.getElementById('modalCashflow').style.display === 'flex') {
             generarSensibilidad();
+        }
+    }
+
+    function actualizarPrecioDesdeResumen(idx) {
+        const inputResumen = document.getElementById(`precioFinal-${idx}`);
+        const precioUsdNuevo = parsearNumeroFlexible(inputResumen.value);
+        if (isNaN(precioUsdNuevo) || precioUsdNuevo <= 0) return;
+
+        const inputPrincipal = document.getElementById(`precio-${idx}`);
+        if (!inputPrincipal) return;
+
+        const moneda = document.getElementById('monedaEntrada').value;
+        const tc = parseFloat(document.getElementById('tipoCambio').value) || 1500;
+
+        inputPrincipal.value = moneda === 'ARS'
+            ? (precioUsdNuevo * tc).toFixed(2)
+            : precioUsdNuevo.toFixed(2);
+
+        actualizarFila(idx);
+    }
+
+    function manejarEnterPrecioFinal(event, idx) {
+        if (event.key !== 'Enter') return;
+        event.preventDefault();
+
+        const inputActual = event.target;
+        normalizarPrecioInput(inputActual);
+        actualizarPrecioDesdeResumen(idx);
+
+        const filaActual = inputActual.closest('tr');
+        if (!filaActual) return;
+
+        let filaSiguiente = filaActual.nextElementSibling;
+        while (filaSiguiente) {
+            const inputSiguiente = filaSiguiente.querySelector('input[id^="precioFinal-"]');
+            if (inputSiguiente) {
+                inputSiguiente.focus();
+                inputSiguiente.select();
+                return;
+            }
+            filaSiguiente = filaSiguiente.nextElementSibling;
         }
     }
 
@@ -2405,7 +4149,7 @@
     function obtenerPrecioBaseUsdActual() {
         const moneda = document.getElementById('monedaEntrada').value;
         const tc = parseFloat(document.getElementById('tipoCambio').value) || 1500;
-        const precioIngresado = parseFloat(document.getElementById(`precio-${indiceOnActual}`).value) || 100;
+        const precioIngresado = parsearNumeroFlexible(document.getElementById(`precio-${indiceOnActual}`).value) || 100;
 
         if (moneda === 'ARS') {
             return precioIngresado / tc;
@@ -2619,44 +4363,230 @@
         document.body.style.overflow = '';
     }
 
-    function ocultarVencidas() {
+    function abrirModalCurva() {
+        document.getElementById('modalCurva').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        generarCurvaRendimientos();
+    }
+
+    function cerrarModalCurva() {
+        document.getElementById('modalCurva').style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    function generarCurvaRendimientos() {
+        const cont = document.getElementById('curvaChartContainer');
+        if (!cont) return;
+
+        const filas = document.querySelectorAll('#tablaCuerpo tr');
+        const puntos = [];
+        filas.forEach(tr => {
+            const idx = parseInt(tr.dataset.index);
+            const on = ONS_BASE[idx];
+            const dur = parseFloat(tr.dataset.duration);
+            const tir = parseFloat(tr.dataset.tir);
+            if (!on || isNaN(dur) || isNaN(tir) || dur <= 0 || tir <= 0) return;
+            puntos.push({ ticker: on.ticker, x: dur, y: tir });
+        });
+
+        if (puntos.length < 3) {
+            cont.innerHTML = '<p style="text-align:center; color:#94a3b8; padding: 40px;">Se necesitan al menos 3 ONs con precio cargado para trazar la curva.</p>';
+            return;
+        }
+
+        // Regresión logarítmica: y = a + b * ln(x)
+        const n = puntos.length;
+        const us = puntos.map(p => Math.log(p.x));
+        const ys = puntos.map(p => p.y);
+        const uMedia = us.reduce((s, v) => s + v, 0) / n;
+        const yMedia = ys.reduce((s, v) => s + v, 0) / n;
+        let num = 0, den = 0;
+        for (let i = 0; i < n; i++) {
+            num += (us[i] - uMedia) * (ys[i] - yMedia);
+            den += (us[i] - uMedia) * (us[i] - uMedia);
+        }
+        const b = den !== 0 ? num / den : 0;
+        const a = yMedia - b * uMedia;
+        const predecir = (x) => a + b * Math.log(x);
+
+        // Escalas
+        const anchoTotal = 1000;
+        const altoTotal = 620;
+        const margenIzq = 60;
+        const margenDer = 30;
+        const margenSup = 90;
+        const margenInf = 100;
+        const anchoGraf = anchoTotal - margenIzq - margenDer;
+        const altoGraf = altoTotal - margenSup - margenInf;
+
+        const xMin = 0;
+        const xMax = Math.ceil(Math.max(...puntos.map(p => p.x)) + 0.5);
+        const yMin = 0;
+        const yMax = Math.ceil((Math.max(...puntos.map(p => p.y)) + 1) / 2) * 2;
+
+        const escalaX = (x) => margenIzq + (x - xMin) / (xMax - xMin) * anchoGraf;
+        const escalaY = (y) => margenSup + altoGraf - (y - yMin) / (yMax - yMin) * altoGraf;
+
+        let svg = `<svg viewBox="0 0 ${anchoTotal} ${altoTotal}" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; font-family:'Segoe UI', Arial, sans-serif;">`;
+
+        // Grilla y ejes
+        const pasosY = (yMax - yMin) / 2;
+        for (let v = yMin; v <= yMax; v += 2) {
+            const y = escalaY(v);
+            svg += `<line x1="${margenIzq}" y1="${y.toFixed(1)}" x2="${anchoTotal - margenDer}" y2="${y.toFixed(1)}" stroke="#e2e8f0" stroke-width="1"/>`;
+            svg += `<text x="${margenIzq - 8}" y="${(y + 4).toFixed(1)}" text-anchor="end" font-size="11" fill="#64748b">${v.toFixed(1)}%</text>`;
+        }
+        for (let v = 0; v <= xMax; v++) {
+            const x = escalaX(v);
+            svg += `<text x="${x.toFixed(1)}" y="${altoTotal - margenInf + 20}" text-anchor="middle" font-size="11" fill="#64748b">${v}</text>`;
+        }
+
+        svg += `<line x1="${margenIzq}" y1="${margenSup}" x2="${margenIzq}" y2="${margenSup + altoGraf}" stroke="#94a3b8" stroke-width="1"/>`;
+        svg += `<line x1="${margenIzq}" y1="${margenSup + altoGraf}" x2="${anchoTotal - margenDer}" y2="${margenSup + altoGraf}" stroke="#94a3b8" stroke-width="1"/>`;
+
+        svg += `<text x="${margenIzq + anchoGraf / 2}" y="${altoTotal - 12}" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155">Modified Duration (DM)</text>`;
+        svg += `<text x="16" y="${margenSup + altoGraf / 2}" text-anchor="middle" font-size="12" font-weight="bold" fill="#334155" transform="rotate(-90 16 ${margenSup + altoGraf / 2})">Yield to Maturity (TIR)</text>`;
+
+        // Curva de tendencia (logarítmica)
+        let pathD = '';
+        const pasos = 60;
+        for (let i = 0; i <= pasos; i++) {
+            const x = xMin + (xMax - xMin) * (i / pasos) || 0.05;
+            const xReal = Math.max(x, xMax * 0.01);
+            const yPred = predecir(xReal);
+            const px = escalaX(xReal);
+            const py = escalaY(yPred);
+            pathD += (i === 0 ? `M ${px.toFixed(1)} ${py.toFixed(1)}` : ` L ${px.toFixed(1)} ${py.toFixed(1)}`);
+        }
+        svg += `<path d="${pathD}" fill="none" stroke="#f97316" stroke-width="2.5"/>`;
+
+        // Clasificar puntos arriba/abajo de la curva y calcular posiciones de etiqueta sin superposición
+        const arriba = [];
+        const abajo = [];
+        puntos.forEach(p => {
+            const yPred = predecir(p.x);
+            const px = escalaX(p.x);
+            const py = escalaY(p.y);
+            const anchoLabel = p.ticker.length * 6.2 + 6;
+            const item = { ...p, px, py, anchoLabel };
+            if (p.y >= yPred) arriba.push(item); else abajo.push(item);
+        });
+
+        function asignarTiers(lista) {
+            lista.sort((a, b) => a.px - b.px);
+            const tiers = [];
+            lista.forEach(p => {
+                let tierAsignado = -1;
+                for (let t = 0; t < tiers.length; t++) {
+                    if (tiers[t] < p.px - p.anchoLabel / 2 - 6) {
+                        tierAsignado = t;
+                        break;
+                    }
+                }
+                if (tierAsignado === -1) {
+                    tierAsignado = tiers.length;
+                    tiers.push(-Infinity);
+                }
+                tiers[tierAsignado] = p.px + p.anchoLabel / 2;
+                p.tier = tierAsignado;
+            });
+        }
+        asignarTiers(arriba);
+        asignarTiers(abajo);
+
+        const pasoTier = 14;
+        const leaderBase = 8;
+
+        // Puntos
+        puntos.forEach(p => {
+            const px = escalaX(p.x);
+            const py = escalaY(p.y);
+            svg += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="4.5" fill="#3b82f6" stroke="#ffffff" stroke-width="1"><title>${p.ticker}: TIR ${p.y.toFixed(2)}% — DM ${p.x.toFixed(2)}</title></circle>`;
+        });
+
+        // Etiquetas arriba de la curva
+        arriba.forEach(p => {
+            const largoLinea = leaderBase + p.tier * pasoTier;
+            const yFin = p.py - largoLinea;
+            svg += `<line x1="${p.px.toFixed(1)}" y1="${(p.py - 5).toFixed(1)}" x2="${p.px.toFixed(1)}" y2="${(yFin + 3).toFixed(1)}" stroke="#94a3b8" stroke-width="1"/>`;
+            svg += `<text x="${p.px.toFixed(1)}" y="${(yFin - 2).toFixed(1)}" text-anchor="middle" font-size="10.5" fill="#1e293b">${p.ticker}</text>`;
+        });
+
+        // Etiquetas debajo de la curva
+        abajo.forEach(p => {
+            const largoLinea = leaderBase + p.tier * pasoTier;
+            const yFin = p.py + largoLinea;
+            svg += `<line x1="${p.px.toFixed(1)}" y1="${(p.py + 5).toFixed(1)}" x2="${p.px.toFixed(1)}" y2="${(yFin - 3).toFixed(1)}" stroke="#94a3b8" stroke-width="1"/>`;
+            svg += `<text x="${p.px.toFixed(1)}" y="${(yFin + 9).toFixed(1)}" text-anchor="middle" font-size="10.5" fill="#1e293b">${p.ticker}</text>`;
+        });
+
+        // Referencia visual (leyenda)
+        svg += `<circle cx="${anchoTotal - 210}" cy="20" r="4.5" fill="#3b82f6"/>`;
+        svg += `<text x="${anchoTotal - 200}" y="24" font-size="11" fill="#334155">Instrumentos</text>`;
+        svg += `<line x1="${anchoTotal - 120}" y1="20" x2="${anchoTotal - 95}" y2="20" stroke="#f97316" stroke-width="2.5"/>`;
+        svg += `<text x="${anchoTotal - 88}" y="24" font-size="11" fill="#334155">Curva de Tendencia</text>`;
+
+        svg += `</svg>`;
+
+        cont.innerHTML = svg;
+    }
+
+    function filaCumpleFiltros(tr) {
         const fechaLiq = hoyInput.value;
+        const venc = tr.dataset.vencimiento;
+        if (venc && venc <= fechaLiq) return false;
+        return true;
+    }
+
+    function aplicarFiltros() {
         const tbody = document.getElementById('tablaCuerpo');
         if (!tbody) return;
         Array.from(tbody.querySelectorAll('tr')).forEach(tr => {
-            const venc = tr.dataset.vencimiento;
-            tr.style.display = (venc && venc <= fechaLiq) ? 'none' : '';
+            tr.style.display = filaCumpleFiltros(tr) ? '' : 'none';
         });
     }
 
     function recalcularTodo() {
         ONS_BASE.forEach((_, index) => actualizarFila(index));
-        ocultarVencidas();
+        aplicarFiltros();
     }
 
-    let ordenVencimientoAsc = true;
+    let ordenColumnaActual = null;
+    let ordenAscActual = true;
 
-    function ordenarPorVencimiento() {
+    function ordenarPorColumna(columna, thId, flechaId) {
         const tbody = document.getElementById('tablaCuerpo');
         const filas = Array.from(tbody.querySelectorAll('tr'));
 
+        if (ordenColumnaActual === columna) {
+            ordenAscActual = !ordenAscActual;
+        } else {
+            ordenAscActual = true;
+        }
+        ordenColumnaActual = columna;
+
         filas.sort((a, b) => {
-            const fa = a.dataset.vencimiento;
-            const fb = b.dataset.vencimiento;
-            if (fa < fb) return ordenVencimientoAsc ? -1 : 1;
-            if (fa > fb) return ordenVencimientoAsc ? 1 : -1;
-            return 0;
+            if (columna === 'vencimiento') {
+                const fa = a.dataset.vencimiento;
+                const fb = b.dataset.vencimiento;
+                if (fa < fb) return ordenAscActual ? -1 : 1;
+                if (fa > fb) return ordenAscActual ? 1 : -1;
+                return 0;
+            }
+            const va = parseFloat(a.dataset[columna]) || 0;
+            const vb = parseFloat(b.dataset[columna]) || 0;
+            return ordenAscActual ? va - vb : vb - va;
         });
 
         filas.forEach(fila => tbody.appendChild(fila));
 
-        document.getElementById('flechaVenc').innerText = ordenVencimientoAsc ? '▲' : '▼';
-        ordenVencimientoAsc = !ordenVencimientoAsc;
+        document.querySelectorAll('.flecha-orden').forEach(f => f.innerText = '⇅');
+        document.getElementById(flechaId).innerText = ordenAscActual ? '▲' : '▼';
     }
 
     construirTabla();
     poblarBuscador();
-    ocultarVencidas();
+    aplicarFiltros();
 
     window.addEventListener('pageshow', function () {
         const chk = document.getElementById('mostrarPagosRealizados');
