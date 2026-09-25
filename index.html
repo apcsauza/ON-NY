@@ -3864,6 +3864,20 @@
         }
     }
 
+    async function fetchJsonConProxy(url) {
+        try {
+            const resp = await fetch(url);
+            if (!resp.ok) throw new Error(`status ${resp.status}`);
+            return await resp.json();
+        } catch (e) {
+            // data912 puede no permitir llamadas directas desde el navegador (CORS) — reintento vía proxy público
+            const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+            const resp2 = await fetch(proxyUrl);
+            if (!resp2.ok) throw new Error(`No se pudo obtener ${url} (directo ni por proxy)`);
+            return await resp2.json();
+        }
+    }
+
     async function actualizarPreciosData912() {
         const boton = document.getElementById('btnActualizarData912');
         const textoOriginal = boton.innerHTML;
@@ -3871,15 +3885,10 @@
         boton.innerHTML = '⏳ Actualizando...';
 
         try {
-            const [respCorp, respCcl] = await Promise.all([
-                fetch('https://data912.com/live/arg_corp'),
-                fetch('https://data912.com/live/ccl')
+            const [datosCorp, datosCcl] = await Promise.all([
+                fetchJsonConProxy('https://data912.com/live/arg_corp'),
+                fetchJsonConProxy('https://data912.com/live/ccl')
             ]);
-            if (!respCorp.ok) throw new Error('Respuesta no OK de data912 (arg_corp)');
-            if (!respCcl.ok) throw new Error('Respuesta no OK de data912 (ccl)');
-
-            const datosCorp = await respCorp.json();
-            const datosCcl = await respCcl.json();
 
             function extraerPrecio(d) {
                 let precio = d.c;
