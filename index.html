@@ -3865,17 +3865,26 @@
     }
 
     async function fetchJsonConProxy(url) {
-        try {
-            const resp = await fetch(url);
-            if (!resp.ok) throw new Error(`status ${resp.status}`);
-            return await resp.json();
-        } catch (e) {
-            // data912 puede no permitir llamadas directas desde el navegador (CORS) — reintento vía proxy público
-            const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-            const resp2 = await fetch(proxyUrl);
-            if (!resp2.ok) throw new Error(`No se pudo obtener ${url} (directo ni por proxy)`);
-            return await resp2.json();
+        const intentos = [
+            () => fetch(url),
+            () => fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url)),
+            () => fetch('https://corsproxy.io/?url=' + encodeURIComponent(url)),
+            () => fetch('https://thingproxy.freeboard.io/fetch/' + url)
+        ];
+
+        let ultimoError = null;
+        for (const intentar of intentos) {
+            try {
+                const resp = await intentar();
+                if (!resp.ok) throw new Error(`status ${resp.status}`);
+                const data = await resp.json();
+                if (Array.isArray(data) || typeof data === 'object') return data;
+                throw new Error('Respuesta inesperada');
+            } catch (e) {
+                ultimoError = e;
+            }
         }
+        throw new Error(`No se pudo obtener ${url} por ninguna vía (directo ni proxies). Último error: ${ultimoError ? ultimoError.message : 'desconocido'}`);
     }
 
     async function actualizarPreciosData912() {
