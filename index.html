@@ -3864,27 +3864,18 @@
         }
     }
 
-    async function fetchJsonConProxy(url) {
-        const intentos = [
-            () => fetch(url),
-            () => fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url)),
-            () => fetch('https://corsproxy.io/?url=' + encodeURIComponent(url)),
-            () => fetch('https://thingproxy.freeboard.io/fetch/' + url)
-        ];
-
-        let ultimoError = null;
-        for (const intentar of intentos) {
-            try {
-                const resp = await intentar();
-                if (!resp.ok) throw new Error(`status ${resp.status}`);
-                const data = await resp.json();
-                if (Array.isArray(data) || typeof data === 'object') return data;
-                throw new Error('Respuesta inesperada');
-            } catch (e) {
-                ultimoError = e;
+    function extraerPrecioData912(d) {
+        let precio = d.c;
+        if (!precio || precio <= 0) {
+            if (d.px_bid > 0 && d.px_ask > 0) {
+                precio = (d.px_bid + d.px_ask) / 2;
+            } else if (d.px_bid > 0) {
+                precio = d.px_bid;
+            } else if (d.px_ask > 0) {
+                precio = d.px_ask;
             }
         }
-        throw new Error(`No se pudo obtener ${url} por ninguna vía (directo ni proxies). Último error: ${ultimoError ? ultimoError.message : 'desconocido'}`);
+        return precio;
     }
 
     async function actualizarPreciosData912() {
@@ -3893,104 +3884,112 @@
         boton.disabled = true;
         boton.innerHTML = '⏳ Actualizando...';
 
+        // 1) Precios de ONs (arg_corp) — si esto falla, no tiene sentido seguir
+        let datosCorp = [];
         try {
-            const [datosCorp, datosCcl] = await Promise.all([
-                fetchJsonConProxy('https://data912.com/live/arg_corp'),
-                fetchJsonConProxy('https://data912.com/live/ccl')
-            ]);
+            const respCorp = await fetch('https://data912.com/live/arg_corp');
+            if (respCorp.ok) datosCorp = await respCorp.json();
+            else console.warn('arg_corp respondió', respCorp.status);
+        } catch (e) {
+            console.error('Error consultando arg_corp:', e);
+        }
 
-            function extraerPrecio(d) {
-                let precio = d.c;
-                if (!precio || precio <= 0) {
-                    if (d.px_bid > 0 && d.px_ask > 0) {
-                        precio = (d.px_bid + d.px_ask) / 2;
-                    } else if (d.px_bid > 0) {
-                        precio = d.px_bid;
-                    } else if (d.px_ask > 0) {
-                        precio = d.px_ask;
-                    }
-                }
-                return precio;
+        if (!Array.isArray(datosCorp) || datosCorp.length === 0) {
+            if (location.protocol === 'file:') {
+                alert('No se pudo conectar con data912. El archivo está abierto como archivo local (file://) — subilo a un hosting (ej. GitHub Pages) para que funcione.');
+            } else {
+                alert('No se pudo conectar con data912 (arg_corp). Probá de nuevo en unos segundos.');
             }
-
-            let ccl = null;
-            if (Array.isArray(datosCcl) && datosCcl.length > 0) {
-                ccl = extraerPrecio(datosCcl[0]);
-            }
-            if (!ccl || ccl <= 0) throw new Error('No se pudo obtener el CCL en vivo de data912.');
-
-            const mapaPrecios = {};
-            datosCorp.forEach(d => {
-                const symbol = (d.symbol || '').toUpperCase().trim();
-                if (!symbol) return;
-                const precio = extraerPrecio(d);
-                if (precio > 0) mapaPrecios[symbol] = precio;
-            });
-
-            // Actualizo el campo de Tipo de Cambio con el CCL recién obtenido, para que quede consistente en el resto de la calculadora
-            document.getElementById('tipoCambio').value = ccl.toFixed(2);
-
-            const moneda = document.getElementById('monedaEntrada').value;
-
-            let actualizados = 0;
-            let usadosCable = [];
-            let usadosMep = [];
-            let convertidosPorCcl = [];
-            let noEncontrados = [];
-
-            document.querySelectorAll('#tablaCuerpo tr').forEach(tr => {
-                const idx = parseInt(tr.dataset.index);
-                const on = ONS_BASE[idx];
-                if (!on) return;
-
-                const tickerBase = on.ticker.toUpperCase().trim();
-                const raiz = tickerBase.endsWith('O') ? tickerBase.slice(0, -1) : tickerBase;
-                let precioUsd = null;
-
-                // 1) Ticker "C" (Cable): liquida directo en USD, es el precio de referencia más limpio
-                if (mapaPrecios[raiz + 'C'] !== undefined) {
-                    precioUsd = mapaPrecios[raiz + 'C'];
-                    usadosCable.push(on.ticker);
-                }
-                // 2) Ticker "D" (MEP): también liquida en USD, si no hay Cable disponible
-                else if (mapaPrecios[raiz + 'D'] !== undefined) {
-                    precioUsd = mapaPrecios[raiz + 'D'];
-                    usadosMep.push(on.ticker);
-                }
-                // 3) Ticker "O" (pesos): último recurso, convierto con el CCL
-                else if (mapaPrecios[tickerBase] !== undefined) {
-                    precioUsd = mapaPrecios[tickerBase] / ccl;
-                    convertidosPorCcl.push(on.ticker);
-                }
-
-                if (precioUsd === null) {
-                    noEncontrados.push(on.ticker);
-                    return;
-                }
-
-                const inputPrecio = document.getElementById(`precio-${idx}`);
-                if (!inputPrecio) return;
-                inputPrecio.value = moneda === 'ARS' ? (precioUsd * ccl).toFixed(2) : precioUsd.toFixed(2);
-                actualizarFila(idx);
-                actualizados++;
-            });
-
-            let msg = `✅ Se actualizaron ${actualizados} de ${document.querySelectorAll('#tablaCuerpo tr').length} ONs con precios de data912.`;
-            msg += `\n\n💵 Cable (USD directo): ${usadosCable.length}`;
-            msg += `\n💵 MEP (USD directo): ${usadosMep.length}`;
-            if (convertidosPorCcl.length > 0) {
-                msg += `\n\n⚠️ Sin ticker en dólares (se convirtió desde pesos con CCL $${ccl.toFixed(2)}): ${convertidosPorCcl.join(', ')}`;
-            }
-            if (noEncontrados.length > 0) {
-                msg += `\n\nNo se encontró cotización para: ${noEncontrados.join(', ')}`;
-            }
-            alert(msg);
-        } catch (err) {
-            alert('No se pudo conectar con data912. Probá de nuevo en unos segundos.\n\n' + err.message);
-        } finally {
             boton.disabled = false;
             boton.innerHTML = textoOriginal;
+            return;
         }
+
+        // 2) CCL — solo hace falta como respaldo si alguna ON no tiene ticker en dólares; si falla, sigo con el TC ya cargado
+        let ccl = parseFloat(document.getElementById('tipoCambio').value) || 1500;
+        try {
+            const respCcl = await fetch('https://data912.com/live/ccl');
+            if (respCcl.ok) {
+                const datosCcl = await respCcl.json();
+                const cclObj = Array.isArray(datosCcl) ? datosCcl[0] : datosCcl;
+                const cclExtraido = cclObj ? extraerPrecioData912(cclObj) : null;
+                if (cclExtraido > 0) {
+                    ccl = cclExtraido;
+                    document.getElementById('tipoCambio').value = ccl.toFixed(2);
+                }
+            } else {
+                console.warn('ccl respondió', respCcl.status);
+            }
+        } catch (e) {
+            console.error('Error consultando ccl (sigo con el TC ya cargado):', e);
+        }
+
+        const mapaPrecios = {};
+        datosCorp.forEach(d => {
+            const symbol = (d.symbol || '').toUpperCase().trim();
+            if (!symbol) return;
+            const precio = extraerPrecioData912(d);
+            if (precio > 0) mapaPrecios[symbol] = precio;
+        });
+
+        const moneda = document.getElementById('monedaEntrada').value;
+
+        let actualizados = 0;
+        let usadosCable = [];
+        let usadosMep = [];
+        let convertidosPorCcl = [];
+        let noEncontrados = [];
+
+        document.querySelectorAll('#tablaCuerpo tr').forEach(tr => {
+            const idx = parseInt(tr.dataset.index);
+            const on = ONS_BASE[idx];
+            if (!on) return;
+
+            const tickerBase = on.ticker.toUpperCase().trim();
+            const raiz = tickerBase.endsWith('O') ? tickerBase.slice(0, -1) : tickerBase;
+            let precioUsd = null;
+
+            // 1) Ticker "C" (Cable): liquida directo en USD, es el precio de referencia más limpio
+            if (mapaPrecios[raiz + 'C'] !== undefined) {
+                precioUsd = mapaPrecios[raiz + 'C'];
+                usadosCable.push(on.ticker);
+            }
+            // 2) Ticker "D" (MEP): también liquida en USD, si no hay Cable disponible
+            else if (mapaPrecios[raiz + 'D'] !== undefined) {
+                precioUsd = mapaPrecios[raiz + 'D'];
+                usadosMep.push(on.ticker);
+            }
+            // 3) Ticker "O" (pesos): último recurso, convierto con el CCL
+            else if (mapaPrecios[tickerBase] !== undefined) {
+                precioUsd = mapaPrecios[tickerBase] / ccl;
+                convertidosPorCcl.push(on.ticker);
+            }
+
+            if (precioUsd === null) {
+                noEncontrados.push(on.ticker);
+                return;
+            }
+
+            const inputPrecio = document.getElementById(`precio-${idx}`);
+            if (!inputPrecio) return;
+            inputPrecio.value = moneda === 'ARS' ? (precioUsd * ccl).toFixed(2) : precioUsd.toFixed(2);
+            actualizarFila(idx);
+            actualizados++;
+        });
+
+        let msg = `✅ Se actualizaron ${actualizados} de ${document.querySelectorAll('#tablaCuerpo tr').length} ONs con precios de data912.`;
+        msg += `\n\n💵 Cable (USD directo): ${usadosCable.length}`;
+        msg += `\n💵 MEP (USD directo): ${usadosMep.length}`;
+        if (convertidosPorCcl.length > 0) {
+            msg += `\n\n⚠️ Sin ticker en dólares (se convirtió desde pesos con CCL $${ccl.toFixed(2)}): ${convertidosPorCcl.join(', ')}`;
+        }
+        if (noEncontrados.length > 0) {
+            msg += `\n\nNo se encontró cotización para: ${noEncontrados.join(', ')}`;
+        }
+        alert(msg);
+
+        boton.disabled = false;
+        boton.innerHTML = textoOriginal;
     }
 
     function manejarEnterPrecio(event, index) {
