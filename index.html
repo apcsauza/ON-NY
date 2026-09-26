@@ -352,6 +352,36 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.15);
         }
 
+        .segmento-toggle {
+            display: inline-flex;
+            background: #f1f5f9;
+            border-radius: 10px;
+            padding: 4px;
+            gap: 4px;
+        }
+
+        .btn-segmento {
+            border: none;
+            background: transparent;
+            color: #64748b;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 8px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .btn-segmento:hover {
+            color: #1a365d;
+        }
+
+        .btn-segmento.activo {
+            background: #1a365d;
+            color: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+        }
+
         .btn-anio-flujo {
             background-color: #e2e8f0;
             color: #0f172a;
@@ -809,15 +839,12 @@
             <datalist id="listaTickers"></datalist>
         </div>
         <div class="input-group">
-            <label for="monedaEntrada">Moneda de Entrada</label>
-            <select id="monedaEntrada" onchange="cambiarMonedaEntrada()">
-                <option value="USD">Dólares (USD)</option>
-                <option value="ARS">Pesos (ARS)</option>
-            </select>
-        </div>
-        <div class="input-group" id="groupTc" style="display: none;">
-            <label for="tipoCambio">Tipo de Cambio ($)</label>
-            <input type="number" id="tipoCambio" value="1500" step="1" oninput="actualizarPreciosPorTC()">
+            <label>Segmento de Precio</label>
+            <div class="segmento-toggle" id="segmentoToggle">
+                <button type="button" class="btn-segmento" data-modo="ARS" onclick="cambiarSegmentoPrecio('ARS')">ARS</button>
+                <button type="button" class="btn-segmento activo" data-modo="MEP" onclick="cambiarSegmentoPrecio('MEP')">MEP</button>
+                <button type="button" class="btn-segmento" data-modo="CABLE" onclick="cambiarSegmentoPrecio('CABLE')">CABLE</button>
+            </div>
         </div>
     </div>
 
@@ -2700,41 +2727,40 @@
     let indiceOnActual = 0;
     hoyInput.addEventListener('change', recalcularTodo);
 
-    function cambiarMonedaEntrada() {
-        const moneda = document.getElementById('monedaEntrada').value;
-        const groupTc = document.getElementById('groupTc');
-        const thPrecio = document.getElementById('thPrecio');
-        const tc = parseFloat(document.getElementById('tipoCambio').value) || 1500;
+    let segmentoPrecio = 'MEP';
+    let tcInternoFallback = 1500;
+    let fxImplicitoPorIndice = {};
 
-        if (moneda === 'ARS') {
-            groupTc.style.display = 'flex';
-            thPrecio.innerText = 'Precio Dirty ($ ARS)';
-        } else {
-            groupTc.style.display = 'none';
-            thPrecio.innerText = 'Precio Dirty (USD)';
-        }
+    function cambiarSegmentoPrecio(nuevoModo) {
+        const modoAnterior = segmentoPrecio;
+        if (nuevoModo === modoAnterior) return;
+
+        document.querySelectorAll('.btn-segmento').forEach(b => b.classList.toggle('activo', b.dataset.modo === nuevoModo));
+
+        const thPrecio = document.getElementById('thPrecio');
+        thPrecio.innerText = nuevoModo === 'ARS' ? 'Precio Dirty ($ ARS)' : 'Precio Dirty (USD)';
+
+        const sufijo = nuevoModo === 'ARS' ? 'O' : (nuevoModo === 'MEP' ? 'D' : 'C');
 
         ONS_BASE.forEach((on, index) => {
+            const raiz = on.ticker.slice(0, -1);
+            const tickerCell = document.getElementById(`tickerCell-${index}`);
+            if (tickerCell) tickerCell.innerText = raiz + sufijo;
+
             const precioInput = document.getElementById(`precio-${index}`);
-            if (moneda === 'ARS') {
-                precioInput.value = (on.precioUsdInicial * tc).toFixed(2);
-            } else {
-                precioInput.value = on.precioUsdInicial.toFixed(2);
+            const valorActual = parsearNumeroFlexible(precioInput.value);
+            if (!isNaN(valorActual) && valorActual > 0) {
+                const fx = fxImplicitoPorIndice[index] || tcInternoFallback;
+                const eraArs = modoAnterior === 'ARS';
+                const esArs = nuevoModo === 'ARS';
+                let nuevoValor = valorActual;
+                if (eraArs && !esArs) nuevoValor = valorActual / fx;
+                else if (!eraArs && esArs) nuevoValor = valorActual * fx;
+                precioInput.value = nuevoValor.toFixed(2);
             }
         });
 
-        recalcularTodo();
-    }
-
-    function actualizarPreciosPorTC() {
-        const moneda = document.getElementById('monedaEntrada').value;
-        if (moneda === 'ARS') {
-            const tc = parseFloat(document.getElementById('tipoCambio').value) || 1500;
-            ONS_BASE.forEach((on, index) => {
-                const precioInput = document.getElementById(`precio-${index}`);
-                precioInput.value = (on.precioUsdInicial * tc).toFixed(2);
-            });
-        }
+        segmentoPrecio = nuevoModo;
         recalcularTodo();
     }
 
@@ -3751,7 +3777,7 @@
             tr.dataset.index = index;
             tr.dataset.vencimiento = on.vencimiento;
             tr.innerHTML = `
-                <td class="ticker">${on.ticker}</td>
+                <td class="ticker" id="tickerCell-${index}">${on.ticker}</td>
                 <td style="text-align: left;">${on.emisor}</td>
                 <td>${formatearFechaAR(on.vencimiento)}</td>
                 <td>
@@ -3884,7 +3910,7 @@
         boton.disabled = true;
         boton.innerHTML = '⏳ Actualizando...';
 
-        // 1) Precios de ONs (arg_corp) — si esto falla, no tiene sentido seguir
+        // Precios de ONs (arg_corp) — trae en un solo pedido los tickers O (pesos), D (MEP) y C (Cable) de todo el panel
         let datosCorp = [];
         try {
             const respCorp = await fetch('https://data912.com/live/arg_corp');
@@ -3905,25 +3931,6 @@
             return;
         }
 
-        // 2) CCL — solo hace falta como respaldo si alguna ON no tiene ticker en dólares; si falla, sigo con el TC ya cargado
-        let ccl = parseFloat(document.getElementById('tipoCambio').value) || 1500;
-        try {
-            const respCcl = await fetch('https://data912.com/live/ccl');
-            if (respCcl.ok) {
-                const datosCcl = await respCcl.json();
-                const cclObj = Array.isArray(datosCcl) ? datosCcl[0] : datosCcl;
-                const cclExtraido = cclObj ? extraerPrecioData912(cclObj) : null;
-                if (cclExtraido > 0) {
-                    ccl = cclExtraido;
-                    document.getElementById('tipoCambio').value = ccl.toFixed(2);
-                }
-            } else {
-                console.warn('ccl respondió', respCcl.status);
-            }
-        } catch (e) {
-            console.error('Error consultando ccl (sigo con el TC ya cargado):', e);
-        }
-
         const mapaPrecios = {};
         datosCorp.forEach(d => {
             const symbol = (d.symbol || '').toUpperCase().trim();
@@ -3932,12 +3939,9 @@
             if (precio > 0) mapaPrecios[symbol] = precio;
         });
 
-        const moneda = document.getElementById('monedaEntrada').value;
+        const sufijo = segmentoPrecio === 'ARS' ? 'O' : (segmentoPrecio === 'MEP' ? 'D' : 'C');
 
         let actualizados = 0;
-        let usadosCable = [];
-        let usadosMep = [];
-        let convertidosPorCcl = [];
         let noEncontrados = [];
 
         document.querySelectorAll('#tablaCuerpo tr').forEach(tr => {
@@ -3945,44 +3949,30 @@
             const on = ONS_BASE[idx];
             if (!on) return;
 
-            const tickerBase = on.ticker.toUpperCase().trim();
-            const raiz = tickerBase.endsWith('O') ? tickerBase.slice(0, -1) : tickerBase;
-            let precioUsd = null;
+            const raiz = on.ticker.slice(0, -1);
+            const tickerBuscado = raiz + sufijo;
+            const precio = mapaPrecios[tickerBuscado];
 
-            // 1) Ticker "C" (Cable): liquida directo en USD, es el precio de referencia más limpio
-            if (mapaPrecios[raiz + 'C'] !== undefined) {
-                precioUsd = mapaPrecios[raiz + 'C'];
-                usadosCable.push(on.ticker);
-            }
-            // 2) Ticker "D" (MEP): también liquida en USD, si no hay Cable disponible
-            else if (mapaPrecios[raiz + 'D'] !== undefined) {
-                precioUsd = mapaPrecios[raiz + 'D'];
-                usadosMep.push(on.ticker);
-            }
-            // 3) Ticker "O" (pesos): último recurso, convierto con el CCL
-            else if (mapaPrecios[tickerBase] !== undefined) {
-                precioUsd = mapaPrecios[tickerBase] / ccl;
-                convertidosPorCcl.push(on.ticker);
-            }
-
-            if (precioUsd === null) {
-                noEncontrados.push(on.ticker);
+            if (precio === undefined) {
+                noEncontrados.push(tickerBuscado);
                 return;
+            }
+
+            // Si estoy en segmento ARS, de paso calculo el FX implícito de ESTA ON (precio en pesos ÷ su propio precio en MEP),
+            // así el USD interno usado para TIR/paridad es específico de cada bono y no un tipo de cambio genérico
+            if (segmentoPrecio === 'ARS') {
+                const precioD = mapaPrecios[raiz + 'D'];
+                if (precioD > 0) fxImplicitoPorIndice[idx] = precio / precioD;
             }
 
             const inputPrecio = document.getElementById(`precio-${idx}`);
             if (!inputPrecio) return;
-            inputPrecio.value = moneda === 'ARS' ? (precioUsd * ccl).toFixed(2) : precioUsd.toFixed(2);
+            inputPrecio.value = precio.toFixed(2);
             actualizarFila(idx);
             actualizados++;
         });
 
-        let msg = `✅ Se actualizaron ${actualizados} de ${document.querySelectorAll('#tablaCuerpo tr').length} ONs con precios de data912.`;
-        msg += `\n\n💵 Cable (USD directo): ${usadosCable.length}`;
-        msg += `\n💵 MEP (USD directo): ${usadosMep.length}`;
-        if (convertidosPorCcl.length > 0) {
-            msg += `\n\n⚠️ Sin ticker en dólares (se convirtió desde pesos con CCL $${ccl.toFixed(2)}): ${convertidosPorCcl.join(', ')}`;
-        }
+        let msg = `✅ Se actualizaron ${actualizados} de ${document.querySelectorAll('#tablaCuerpo tr').length} ONs (segmento ${segmentoPrecio}) con precios de data912.`;
         if (noEncontrados.length > 0) {
             msg += `\n\nNo se encontró cotización para: ${noEncontrados.join(', ')}`;
         }
@@ -4019,9 +4009,6 @@
         const fechaLiq = new Date(hoyInput.value + 'T00:00:00');
         const fechaUlt = new Date(on.ultCupon + 'T00:00:00');
 
-        const moneda = document.getElementById('monedaEntrada').value;
-        const tc = parseFloat(document.getElementById('tipoCambio').value) || 1500;
-
         const precioInput = document.getElementById(`precio-${index}`);
         const precioIngresado = parsearNumeroFlexible(precioInput.value);
 
@@ -4030,9 +4017,10 @@
         let precioDirtyUsd = precioIngresado;
         const subPrecioSpan = document.getElementById(`subPrecio-${index}`);
 
-        if (moneda === 'ARS') {
-            precioDirtyUsd = precioIngresado / tc;
-            subPrecioSpan.innerText = `USD ${precioDirtyUsd.toFixed(2)}`;
+        if (segmentoPrecio === 'ARS') {
+            const fx = fxImplicitoPorIndice[index] || tcInternoFallback;
+            precioDirtyUsd = precioIngresado / fx;
+            subPrecioSpan.innerText = `USD ${precioDirtyUsd.toFixed(2)} (FX $${fx.toFixed(2)})`;
         } else {
             subPrecioSpan.innerText = '';
         }
@@ -4094,11 +4082,9 @@
         const inputPrincipal = document.getElementById(`precio-${idx}`);
         if (!inputPrincipal) return;
 
-        const moneda = document.getElementById('monedaEntrada').value;
-        const tc = parseFloat(document.getElementById('tipoCambio').value) || 1500;
-
-        inputPrincipal.value = moneda === 'ARS'
-            ? (precioUsdNuevo * tc).toFixed(2)
+        const fx = fxImplicitoPorIndice[idx] || tcInternoFallback;
+        inputPrincipal.value = segmentoPrecio === 'ARS'
+            ? (precioUsdNuevo * fx).toFixed(2)
             : precioUsdNuevo.toFixed(2);
 
         actualizarFila(idx);
@@ -4164,12 +4150,10 @@
     }
 
     function obtenerPrecioBaseUsdActual() {
-        const moneda = document.getElementById('monedaEntrada').value;
-        const tc = parseFloat(document.getElementById('tipoCambio').value) || 1500;
         const precioIngresado = parsearNumeroFlexible(document.getElementById(`precio-${indiceOnActual}`).value) || 100;
-
-        if (moneda === 'ARS') {
-            return precioIngresado / tc;
+        if (segmentoPrecio === 'ARS') {
+            const fx = fxImplicitoPorIndice[indiceOnActual] || tcInternoFallback;
+            return precioIngresado / fx;
         }
         return precioIngresado;
     }
